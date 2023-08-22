@@ -32,6 +32,7 @@ def observe_terminal_event(repo_raw_data, init_idx, data_period_days, forecast_g
     #         return False
     if repo_raw_data.loc[init_idx, 'commit_frequency'] == 'NaN':
         return False
+    # Ignore sample points for NAN, this strategy is pending discussion
     if float(repo_raw_data.loc[init_idx, 'commit_frequency']) > 0:
         return False
     else:
@@ -59,11 +60,6 @@ def split_appropriate_timeline(repo_full_name, data_period_days, forecast_gap_da
 
         temp_date = list(repo_raw_data['grimoire_creation_date'])
         temp_date.sort()
-        while True:
-            if temp_date[len(temp_date) - 1] == 'grimoire_creation_date':
-                temp_date.pop()
-            else:
-                break
 
         timeline_start_time, timeline_end_time = (min(temp_date))[:10], (max(temp_date))[:10]
         print(f'start:{timeline_start_time}  ,end: {timeline_end_time}')
@@ -76,7 +72,7 @@ def split_appropriate_timeline(repo_full_name, data_period_days, forecast_gap_da
 
         if terminal_event_start_idx == -1:
             label = 1  # active repo
-            # 　ｆｏｒｅｃａｓｔ　ｇａｐ的终结时间为当前最新的记录时间
+            # The end time of the forecast gap is the latest recorded time
             end_time_proper = end_time_d - forecast_gap_days_d
             start_time_proper = end_time_proper - data_period_days
             if start_time_proper < start_time_d:
@@ -92,7 +88,9 @@ def split_appropriate_timeline(repo_full_name, data_period_days, forecast_gap_da
             start_time_proper = start_time_d
         else:
             label = 0  # inactive repo
-            # 　ｆｏｒｅｃａｓｔ　ｇａｐ的终结时间为　ｉｄｘ－１那条记录对应的时间（包含）
+            # The ending time of the forecast gap is the time corresponding to the record idx-1 (inclusive)
+            # Starting from the termination time of the aforementioned forecastgap, reverse the forecastgap time forward
+            # Step back the dataperiod time and extract it as the data for subsequent processing
             end_time_proper = datetime.datetime.strptime(
                 repo_raw_data['grimoire_creation_date'][terminal_event_start_idx - 1][:10],
                 '%Y-%m-%d') - forecast_gap_days_d
@@ -104,8 +102,6 @@ def split_appropriate_timeline(repo_full_name, data_period_days, forecast_gap_da
                 label=-1
                 end_time_proper = start_time_proper
 
-        # 按照上述ｆｏｒｅｃａｓｔ　ｇａｐ的终止时间开始，向前倒退ｆｏｒｅｃａｓｔ　ｇａｐ时间
-        # 再向前倒退ｄａｔａ　ｐｅｒｉｏｄ时间，提取出来作为后续处理的数据
         data_proper = repo_raw_data[
             (repo_raw_data['grimoire_creation_date'] >= (
                 start_time_proper.strftime('%Y-%m-%d')) + "T00:00:00+00:00") & (
@@ -126,15 +122,15 @@ def main_split_timeline():
     df = pd.read_csv(result_path + "repo_list.csv")
     repo_list = list(df['name'])
     labels = []
-    count_label=[]
+    # count_label=[]
     for repo in repo_list:
         print(repo)
         label, data = split_appropriate_timeline(repo, data_period_days, forecast_gap_days, label_period_days)
-        count_label.append(label)
+        # count_label.append(label)
         if not data.empty:
             labels.append({'repo': repo, 'label': label})
             data.to_csv(f'{result_path}segment2/{repo.replace("/", "_")}.csv')
-    print(Counter(count_label))
+    # print(Counter(count_label))
     df_label = pd.DataFrame(labels)
     df_label.to_csv(f'{result_path}label.csv')
 

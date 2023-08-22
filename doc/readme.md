@@ -16,12 +16,13 @@
 
 - 输出：时间序列、时间戳
 
-- **<u>! Alert !：由于保密需要，原始数据和分析结果不要上传到GitHub，需要注意配置.gitignore文件和config.ini文</u>件**
+- **<u>! Alert !：由于保密需要，原始数据和分析结果不上传GitHub，需要注意配置.gitignore文件和config.ini文</u>件**
 
   - 新建config.ini，并配置data_path、result_path、 file_list
   - 新建数据目录和结果目录，结果目录的层级为：
     - /raw
     - /segment_data
+    - /segment2
 - 目前有两个问题项目，最后拼接完成剩余600个项目
 
 ![img.png](img.png)![img_1.png](img_1.png)

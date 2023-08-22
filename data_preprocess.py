@@ -3,6 +3,7 @@ import os
 from collections import Counter
 
 import pandas as pd
+
 '''
 read data from CSV files by [login_name/repo_name]
 '''
@@ -16,12 +17,10 @@ result_path = config['path']['result_path']
 
 
 def process_raw_data():
-
-
     # 1. generate "repo list"
     # Alert: ignore  https://github.com/prestodb/presto , dirty data
-    reader_1 = pd.read_csv(data_path+file_list[1], iterator=True)
-    repo_list=[]
+    reader_1 = pd.read_csv(data_path + file_list[1], iterator=True)
+    repo_list = []
     i = 0
     while True:
         try:
@@ -32,17 +31,17 @@ def process_raw_data():
         except StopIteration:
             break
 
-    repo_list=[repo_list[i].replace("https://github.com/","") for i in range(len(repo_list))]
-    repo_list=list(set(repo_list))
+    repo_list = [repo_list[i].replace("https://github.com/", "") for i in range(len(repo_list))]
+    repo_list = list(set(repo_list))
     repo_df = pd.DataFrame(columns=['name'], data=repo_list)
-    repo_df.to_csv(result_path+'repo_list.csv')
+    repo_df.to_csv(result_path + 'repo_list.csv')
 
     print("--------- finish list.csv ---------")
 
     # 2. for every compass_metric_model_{}.csv, for every repo, generate "raw csv"
     for metric in file_list:
-        metric_suffix=metric.replace("compass_metric_model_","")
-        metric_file_path=result_path+"raw\\"
+        metric_suffix = metric.replace("compass_metric_model_", "")
+        metric_file_path = result_path + "raw\\"
         # 2.1 create file
         reader_temp = pd.read_csv(data_path + file_list[0], iterator=True)
         while True:
@@ -50,14 +49,12 @@ def process_raw_data():
                 df = reader_temp.get_chunk(10000)
                 # 2.1 storage data by repo
                 # get repo name of 10000 lines, filter lines by reponame
-                # use if-else to storage
-                repo_name_part=list(set(df['label']))
-                repo_name_part=[i.replace("\n","") for i in repo_name_part]
+                repo_name_part = list(set(df['label']))
+                repo_name_part = [i.replace("\n", "") for i in repo_name_part]
 
                 for repo in repo_name_part:
-                    repo_file_path=f'{metric_file_path+repo.replace("https://github.com/","").replace("/","_")}_{metric_suffix}'
-                    df[df["label"]==repo].to_csv(repo_file_path, mode='a', index=False)
-
+                    repo_file_path = f'{metric_file_path + repo.replace("https://github.com/", "").replace("/", "_")}_{metric_suffix}'
+                    df[df["label"] == repo].to_csv(repo_file_path, mode='a', index=False)
 
                 i = i + 1
             except StopIteration:
@@ -67,9 +64,9 @@ def process_raw_data():
 def validation_timeline(repo):
     # review the start time and the end time of data, and the length of timeline
     print(f"==== {repo} ====")
-    length=[]
+    length = []
 
-    df_new=pd.DataFrame()
+    df_new = pd.DataFrame()
 
     for f in file_list:
         file_suffix = f.replace("compass_metric_model", "")
@@ -101,7 +98,8 @@ def validation_timeline(repo):
         else:
             print(f'!!!! {repo.replace("/", "_")}{file_suffix}  is not exists  !!!!')
     df_new.to_csv(f'{result_path}segment_data/{repo.replace("/", "_")}.csv')
-    return len(set(length))==1 and length[0]==len(df_new)
+    return len(set(length)) == 1 and length[0] == len(df_new)
+
 
 def main_validation_timeline():
     df = pd.read_csv(result_path + "repo_list.csv")
