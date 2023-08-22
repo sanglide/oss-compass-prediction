@@ -33,11 +33,11 @@ def process_raw_data():
             break
 
     repo_list=[repo_list[i].replace("https://github.com/","") for i in range(len(repo_list))]
+    repo_list=list(set(repo_list))
     repo_df = pd.DataFrame(columns=['name'], data=repo_list)
     repo_df.to_csv(result_path+'repo_list.csv')
 
     print("--------- finish list.csv ---------")
-
 
     # 2. for every compass_metric_model_{}.csv, for every repo, generate "raw csv"
     for metric in file_list:
