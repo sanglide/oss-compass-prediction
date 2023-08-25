@@ -58,6 +58,7 @@ def split_appropriate_timeline(repo_full_name, data_period_days, forecast_gap_da
                 # print(repo_raw_data.loc[idx,])
                 break
 
+        # log
         temp_date = list(repo_raw_data['grimoire_creation_date'])
         temp_date.sort()
 
@@ -79,7 +80,7 @@ def split_appropriate_timeline(repo_full_name, data_period_days, forecast_gap_da
                 start_time_proper = start_time_d
             if end_time_proper < start_time_proper:
                 print(f'empty data!!')
-                label=-1
+                label = -1
                 end_time_proper = start_time_proper
         elif terminal_event_start_idx == 0:
             print(f'{repo_full_name} has data problem!!!')
@@ -99,7 +100,7 @@ def split_appropriate_timeline(repo_full_name, data_period_days, forecast_gap_da
                 start_time_proper = start_time_d
             if end_time_proper < start_time_proper:
                 print(f'empty data!!')
-                label=-1
+                label = -1
                 end_time_proper = start_time_proper
 
         data_proper = repo_raw_data[
@@ -113,9 +114,7 @@ def split_appropriate_timeline(repo_full_name, data_period_days, forecast_gap_da
 
     else:
         print(f'{repo_full_name} has no data!')
-        return -1, pd.DataFrame()
-
-
+        return -2, pd.DataFrame()
 
 
 def main_split_timeline():
@@ -133,6 +132,7 @@ def main_split_timeline():
     # print(Counter(count_label))
     df_label = pd.DataFrame(labels)
     df_label.to_csv(f'{result_path}label.csv')
+
 
 if __name__ == "__main__":
     main_split_timeline()

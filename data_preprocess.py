@@ -105,7 +105,7 @@ def main_validation_timeline():
     df = pd.read_csv(result_path + "repo_list.csv")
     repo_list = list(df['name'])
     value = []
-    no_exists = []
+    # no_exists = []
     for repo in repo_list:
         if repo in problem_repo:
             print(f'!!!! {repo}  has some problem  !!!!')
