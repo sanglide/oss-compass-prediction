@@ -25,18 +25,20 @@ data_period_days, forecast_gap_days, label_period_days = int(config['time_value'
         'forecast_gap_days']), int(config['time_value']['label_period_days'])
 
 
-def observe_terminal_event(repo_raw_data, init_idx, data_period_days, forecast_gap_days, label_period_days):
-    # return whether a terminal event is observed in repo_raw_data starting from the record with index init_idx (inclusive)
-    # for i in range(label_period_days):
-    #     if repo_raw_data[init_idx+i]['commit_frequency'] > 0:
-    #         return False
-    if repo_raw_data.loc[init_idx, 'commit_frequency'] == 'NaN':
-        return False
-    # Ignore sample points for NAN, this strategy is pending discussion
-    if float(repo_raw_data.loc[init_idx, 'commit_frequency']) > 0:
-        return False
-    else:
-        return True
+# def observe_terminal_event(repo_raw_data, init_idx, data_period_days, forecast_gap_days, label_period_days):
+#     if repo_raw_data.loc[init_idx, 'commit_frequency'] == 'NaN':
+#         return False
+#     # return whether a terminal event is observed in repo_raw_data starting from the record with index init_idx (inclusive)
+#     for i in range(label_period_days):
+#         if repo_raw_data[init_idx+i]['commit_frequency'] > 0:
+#             return False
+#     return True
+
+# Ignore sample points for NAN, this strategy is pending discussion
+# if float(repo_raw_data.loc[init_idx, 'commit_frequency']) > 0:
+#     return False
+# else:
+#     return True
 
 
 def split_appropriate_timeline(repo_full_name, data_period_days, forecast_gap_days, label_period_days):
@@ -46,17 +48,8 @@ def split_appropriate_timeline(repo_full_name, data_period_days, forecast_gap_da
         repo_raw_data = pd.read_csv(f'{result_path}segment_data/{repo_full_name.replace("/", "_")}.csv')
         repo_raw_data = repo_raw_data[~repo_raw_data['grimoire_creation_date'].isin(['grimoire_creation_date'])]
         repo_raw_data = repo_raw_data.drop_duplicates('grimoire_creation_date', keep='first')
-
-        terminal_event_start_idx = -1
-        repo_raw_data_index = repo_raw_data.index
-        for idx, record in enumerate(repo_raw_data):
-            # read each record in the repo's raw data in time increasing order
-            if observe_terminal_event(repo_raw_data, repo_raw_data_index[idx], data_period_days, forecast_gap_days,
-                                      label_period_days):
-                # observed a terminal event starting from the idx (inclusive)
-                terminal_event_start_idx = repo_raw_data_index[idx]
-                # print(repo_raw_data.loc[idx,])
-                break
+        repo_raw_data.sort_values(by="grimoire_creation_date", axis=0, ascending=False, inplace=True)
+        repo_raw_data.reset_index(drop=True)
 
         # log
         temp_date = list(repo_raw_data['grimoire_creation_date'])
@@ -70,6 +63,29 @@ def split_appropriate_timeline(repo_full_name, data_period_days, forecast_gap_da
         forecast_gap_days_d, data_period_days, label_period_days = datetime.timedelta(
             days=forecast_gap_days), datetime.timedelta(days=data_period_days), datetime.timedelta(
             days=label_period_days)
+
+        terminal_event_start_idx = -1
+        repo_raw_data_index = repo_raw_data.index
+
+        for idx in range(len(repo_raw_data)):
+            idx_date = datetime.datetime.strptime(
+                repo_raw_data.loc[repo_raw_data_index[idx], 'grimoire_creation_date'][:10], '%Y-%m-%d')
+            if idx_date < end_time_d - label_period_days:
+                break
+            if float(repo_raw_data.loc[repo_raw_data_index[idx], 'commit_frequency']) > 0:
+                break
+            if float(repo_raw_data.loc[repo_raw_data_index[idx], 'commit_frequency']) <= 0:
+                terminal_event_start_idx = repo_raw_data_index[idx]
+        # for idx, record in enumerate(repo_raw_data):
+        #     # read each record in the repo's raw data in time increasing order
+        #     idx_date = datetime.datetime.strptime(
+        #         repo_raw_data.loc[repo_raw_data_index[idx], 'grimoire_creation_date'][:10], '%Y-%m-%d')
+        #     if idx_date > end_time_d - label_period_days and float(
+        #             repo_raw_data.loc[repo_raw_data_index[idx], 'commit_frequency']) <= 0:
+        #         # observed a terminal event starting from the idx (inclusive)
+        #         terminal_event_start_idx = repo_raw_data_index[idx]
+        #         # print(repo_raw_data.loc[idx,])
+        #         break
 
         if terminal_event_start_idx == -1:
             label = 1  # active repo
@@ -121,15 +137,15 @@ def main_split_timeline():
     df = pd.read_csv(result_path + "repo_list.csv")
     repo_list = list(df['name'])
     labels = []
-    # count_label=[]
+    count_label = []
     for repo in repo_list:
         print(repo)
         label, data = split_appropriate_timeline(repo, data_period_days, forecast_gap_days, label_period_days)
-        # count_label.append(label)
+        count_label.append(label)
         if not data.empty:
             labels.append({'repo': repo, 'label': label})
             data.to_csv(f'{result_path}segment2/{repo.replace("/", "_")}.csv')
-    # print(Counter(count_label))
+    print(Counter(count_label))
     df_label = pd.DataFrame(labels)
     df_label.to_csv(f'{result_path}label.csv')
 
