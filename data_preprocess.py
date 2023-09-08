@@ -43,7 +43,7 @@ def process_raw_data():
         metric_suffix = metric.replace("compass_metric_model_", "")
         metric_file_path = result_path + "raw\\"
         # 2.1 create file
-        reader_temp = pd.read_csv(data_path + file_list[0], iterator=True)
+        reader_temp = pd.read_csv(data_path + metric, iterator=True)
         while True:
             try:
                 df = reader_temp.get_chunk(10000)
@@ -81,7 +81,20 @@ def validation_timeline(repo):
             temp_data_df.drop("model_name", axis=1, inplace=True)
             temp_data_df.drop("metadata__enriched_on", axis=1, inplace=True)
 
+            temp_data_df = temp_data_df[~temp_data_df['grimoire_creation_date'].isin(['grimoire_creation_date'])]
+            temp_data_df = temp_data_df.drop_duplicates('grimoire_creation_date', keep='first')
+
+            old_columns_name=temp_data_df.columns
+            new_columns_name=[]
+            for i in old_columns_name:
+                if i=='grimoire_creation_date':
+                    new_columns_name.append(i)
+                else:
+                    new_columns_name.append(i+f'_{file_suffix}' for i in old_columns_name)
+            temp_data_df.columns = new_columns_name
+
             # temp_data_df.sort_values(by='grimoire_creation_date')
+            # print(temp_data_df)
 
             if df_new.empty:
                 df_new = temp_data_df
