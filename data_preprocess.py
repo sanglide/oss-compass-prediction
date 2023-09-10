@@ -129,5 +129,5 @@ def main_validation_timeline():
 
 
 if __name__ == "__main__":
-    # process_raw_data()
+    process_raw_data()
     main_validation_timeline()
