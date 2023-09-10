@@ -71,7 +71,7 @@ def validation_timeline(repo):
     for f in file_list:
         file_suffix = f.replace("compass_metric_model", "")
         if os.path.exists(f'{result_path}raw\\{repo.replace("/", "_")}{file_suffix}'):
-            temp_data_df = pd.read_csv(f'{result_path}raw\\{repo.replace("/", "_")}{file_suffix}')
+            temp_data_df = pd.read_csv(f'{result_path}raw\\{repo.replace("/", "_")}{file_suffix}',low_memory=False)
 
             temp_data_df.drop("_index", axis=1, inplace=True)
             temp_data_df.drop("uuid", axis=1, inplace=True)
@@ -90,7 +90,7 @@ def validation_timeline(repo):
                 if i=='grimoire_creation_date':
                     new_columns_name.append(i)
                 else:
-                    new_columns_name.append(i+f'_{file_suffix}' for i in old_columns_name)
+                    new_columns_name.append(i+f'{file_suffix.replace(".csv","")}')
             temp_data_df.columns = new_columns_name
 
             # temp_data_df.sort_values(by='grimoire_creation_date')
@@ -129,5 +129,5 @@ def main_validation_timeline():
 
 
 if __name__ == "__main__":
-    process_raw_data()
+    # process_raw_data()
     main_validation_timeline()
