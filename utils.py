@@ -26,16 +26,16 @@ data_period_days, forecast_gap_days, label_period_days = int(config['time_value'
 
 
 # def observe_terminal_event(repo_raw_data, init_idx, data_period_days, forecast_gap_days, label_period_days):
-#     if repo_raw_data.loc[init_idx, 'commit_frequency'] == 'NaN':
+#     if repo_raw_data.loc[init_idx, 'commit_frequency_activity'] == 'NaN':
 #         return False
 #     # return whether a terminal event is observed in repo_raw_data starting from the record with index init_idx (inclusive)
 #     for i in range(label_period_days):
-#         if repo_raw_data[init_idx+i]['commit_frequency'] > 0:
+#         if repo_raw_data[init_idx+i]['commit_frequency_activity'] > 0:
 #             return False
 #     return True
 
 # Ignore sample points for NAN, this strategy is pending discussion
-# if float(repo_raw_data.loc[init_idx, 'commit_frequency']) > 0:
+# if float(repo_raw_data.loc[init_idx, 'commit_frequency_activity']) > 0:
 #     return False
 # else:
 #     return True
@@ -72,16 +72,16 @@ def split_appropriate_timeline(repo_full_name, data_period_days, forecast_gap_da
                 repo_raw_data.loc[repo_raw_data_index[idx], 'grimoire_creation_date'][:10], '%Y-%m-%d')
             if idx_date < end_time_d - label_period_days:
                 break
-            if float(repo_raw_data.loc[repo_raw_data_index[idx], 'commit_frequency']) > 0:
+            if float(repo_raw_data.loc[repo_raw_data_index[idx], 'commit_frequency_activity']) > 0:
                 break
-            if float(repo_raw_data.loc[repo_raw_data_index[idx], 'commit_frequency']) <= 0:
+            if float(repo_raw_data.loc[repo_raw_data_index[idx], 'commit_frequency_activity']) <= 0:
                 terminal_event_start_idx = repo_raw_data_index[idx]
         # for idx, record in enumerate(repo_raw_data):
         #     # read each record in the repo's raw data in time increasing order
         #     idx_date = datetime.datetime.strptime(
         #         repo_raw_data.loc[repo_raw_data_index[idx], 'grimoire_creation_date'][:10], '%Y-%m-%d')
         #     if idx_date > end_time_d - label_period_days and float(
-        #             repo_raw_data.loc[repo_raw_data_index[idx], 'commit_frequency']) <= 0:
+        #             repo_raw_data.loc[repo_raw_data_index[idx], 'commit_frequency_activity']) <= 0:
         #         # observed a terminal event starting from the idx (inclusive)
         #         terminal_event_start_idx = repo_raw_data_index[idx]
         #         # print(repo_raw_data.loc[idx,])
