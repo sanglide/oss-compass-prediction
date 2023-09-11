@@ -79,7 +79,7 @@ def validation_timeline(repo):
             temp_data_df.drop("type", axis=1, inplace=True)
             temp_data_df.drop("label", axis=1, inplace=True)
             temp_data_df.drop("model_name", axis=1, inplace=True)
-            temp_data_df.drop("metadata__enriched_on", axis=1, inplace=True)
+            # temp_data_df.drop("metadata__enriched_on", axis=1, inplace=True)
 
             temp_data_df = temp_data_df[~temp_data_df['grimoire_creation_date'].isin(['grimoire_creation_date'])]
             temp_data_df = temp_data_df.drop_duplicates('grimoire_creation_date', keep='first')
