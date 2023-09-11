@@ -16,15 +16,15 @@ The timeline of each feature is common.
 '''
 
 config = configparser.ConfigParser()
-config.read('config.ini')
+config.read('../config.ini')
 file_list = config['path']['file_list'].split(",")
 problem_repo = config['path']['problem_repo'].split(",")
 result_path = config['path']['result_path']
 data_period_days, forecast_gap_days, label_period_days = int(config['time_value']['data_period_days']), int(
     config['time_value'][
         'forecast_gap_days']), int(config['time_value']['label_period_days'])
-frequency_threshold=config['active_value']['frequency_threshold']
-active_count_value=config['active_value']['active_count']
+frequency_threshold = config['active_value']['frequency_threshold']
+active_count_value = config['active_value']['active_count']
 
 
 # def observe_terminal_event(repo_raw_data, init_idx, data_period_days, forecast_gap_days, label_period_days):
@@ -69,15 +69,16 @@ def split_appropriate_timeline(repo_full_name, data_period_days, forecast_gap_da
         terminal_event_start_idx = -1
         repo_raw_data_index = repo_raw_data.index
 
-        active_count=0
+        active_count = 0
         for idx in range(len(repo_raw_data)):
             idx_date = datetime.datetime.strptime(
                 repo_raw_data.loc[repo_raw_data_index[idx], 'grimoire_creation_date'][:10], '%Y-%m-%d')
             if idx_date < end_time_d - label_period_days:
                 break
-            if float(repo_raw_data.loc[repo_raw_data_index[idx], 'commit_frequency_activity']) <= float(frequency_threshold):
-                active_count=active_count+1
-            if active_count>=float(active_count_value):
+            if float(repo_raw_data.loc[repo_raw_data_index[idx], 'commit_frequency_activity']) <= float(
+                    frequency_threshold):
+                active_count = active_count + 1
+            if active_count >= float(active_count_value):
                 terminal_event_start_idx = repo_raw_data_index[idx]
                 break
 
