@@ -9,7 +9,7 @@ read data from CSV files by [login_name/repo_name]
 '''
 
 config = configparser.ConfigParser()
-config.read('config.ini')
+config.read('../config.ini')
 data_path = config['path']['data_path']
 problem_repo = config['path']['problem_repo'].split(",")
 file_list = config['path']['file_list'].split(",")
