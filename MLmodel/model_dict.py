@@ -1,9 +1,3 @@
-# _*_ coding : utf-8 _*_
-# @Time : 2023/9/6 00:10
-# @Author : Confetti-Lxy
-# @File : models
-# @Project : project
-
 # 用于存放模型的字典类
 
 from .FeatureBased.KNN import KNN as FeatureKNN

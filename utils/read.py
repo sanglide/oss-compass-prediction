@@ -3,9 +3,13 @@ import csv
 import pandas as pd
 import numpy as np
 
+result_path = '/home/confetti/oss/oss-compass-result/'
+filePaths = result_path + 'segment2/'
+Label_path = result_path + 'label.csv'
+
 def Read():
     X, Y = [], []
-    df = pd.read_csv('data/data.csv', header=None)
+    df = pd.read_csv('data/old/data.csv', header=None)
     datas = df.to_numpy()
     for data in datas:
         X.append(data[1:])
@@ -14,7 +18,7 @@ def Read():
     return X, Y
 
 
-def multiRead(Label_path, filePaths):
+def multiRead():
     LabelDict = {}
     with open(Label_path, 'r', newline='') as csvfile:
         csvreader = csv.reader(csvfile)
@@ -45,3 +49,9 @@ def multiRead(Label_path, filePaths):
                 Y.append(int(LabelDict[filename]))
     X, Y = np.array(X), np.array(Y)
     return X, Y    
+
+
+read_dict = {
+    "read": Read,
+    "multi-read": multiRead,
+}

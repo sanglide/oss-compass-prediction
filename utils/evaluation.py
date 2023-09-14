@@ -36,7 +36,7 @@ def plot_matrix(conf_matrix, name):
         for j in range(2):
             plt.text(j, i, '{:.2f}'.format(class_accuracy[i][j] * 100) + '%', ha="center", va="center",
                      color="black" if conf_matrix[i][j] > thresh else "while")
-    path = 'pic/' + name + '/'
+    path = 'data/pic/' + name + '/'
     if not os.path.exists(path):
         os.makedirs(path)
     plt.savefig(path + name + 'Confusion_Matrix' + '.png')
@@ -75,7 +75,7 @@ def evaluate(y_true, y_pred, name, printRaw=False, draw=False):
         plt.title('ROC Curve')
         plt.legend(loc='lower right')
         plt.grid(True)
-        path = 'pic/' + name
+        path = 'data/pic/' + name
         if not os.path.exists(path):
             os.makedirs(path)
         plt.savefig(path + '/' + name + '.png')
@@ -83,6 +83,7 @@ def evaluate(y_true, y_pred, name, printRaw=False, draw=False):
 
 
 def test(name, x_data, y_data, kf):
+    print("==================================" + name + "==================================")
     m = MLmodel_dict[name]
     Y_pred, Y_test = np.array([]), np.array([])
     for train_index, test_index in kf.split(x_data, y_data):

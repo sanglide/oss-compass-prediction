@@ -5,7 +5,7 @@ import torch.nn as nn
 import torch.optim as optim
 from model_dict import DLmodel_dict
 import warnings
-# 屏蔽特定类型的警告
+
 warnings.filterwarnings("ignore", category=DeprecationWarning)
 
 from utils import (
@@ -23,8 +23,8 @@ NUM_EPOCHS = 30
 NUM_WORKERS = 2
 LOAD_MODEL = False
 PIN_MEMORY = True
-TRAIN_DATA_DIR = 'data/train.csv'
-VALID_DATA_DIR = 'data/valid.csv'
+TRAIN_DATA_DIR = '../data/old/train.csv'
+VALID_DATA_DIR = '../data/old/valid.csv'
 
 def train(loader, model, optimizer, loss_fn, scaler):
     loop = tqdm(loader)

@@ -1,35 +1,32 @@
-Got 328/480 with acc 68.33%
+Got 305/480 with acc 63.54%
 =====> Saving checkpoint <=====
-Got 336/480 with acc 70.00%
-=====> Saving checkpoint <=====
-Got 338/480 with acc 70.42%
-=====> Saving checkpoint <=====
-Got 338/480 with acc 70.42%
-Got 340/480 with acc 70.83%
-=====> Saving checkpoint <=====
-Got 175/480 with acc 36.46%
-Got 175/480 with acc 36.46%
-Got 175/480 with acc 36.46%
-Got 175/480 with acc 36.46%
-Got 175/480 with acc 36.46%
-Got 175/480 with acc 36.46%
-Got 175/480 with acc 36.46%
-Got 175/480 with acc 36.46%
-Got 175/480 with acc 36.46%
-Got 175/480 with acc 36.46%
-Got 175/480 with acc 36.46%
-Got 175/480 with acc 36.46%
-Got 175/480 with acc 36.46%
-Got 175/480 with acc 36.46%
-Got 175/480 with acc 36.46%
-Got 175/480 with acc 36.46%
-Got 175/480 with acc 36.46%
-Got 175/480 with acc 36.46%
-Got 175/480 with acc 36.46%
-Got 175/480 with acc 36.46%
-Got 175/480 with acc 36.46%
-Got 175/480 with acc 36.46%
-Got 175/480 with acc 36.46%
-Got 175/480 with acc 36.46%
-Got 175/480 with acc 36.46%
-model MLP get best acc: 0.7083333333333334, the checkpoints is storaged in checkpoints/my_checkpoint
+Got 305/480 with acc 63.54%
+Got 305/480 with acc 63.54%
+Got 305/480 with acc 63.54%
+Got 305/480 with acc 63.54%
+Got 305/480 with acc 63.54%
+Got 305/480 with acc 63.54%
+Got 305/480 with acc 63.54%
+Got 305/480 with acc 63.54%
+Got 305/480 with acc 63.54%
+Got 305/480 with acc 63.54%
+Got 305/480 with acc 63.54%
+Got 305/480 with acc 63.54%
+Got 305/480 with acc 63.54%
+Got 305/480 with acc 63.54%
+Got 305/480 with acc 63.54%
+Got 305/480 with acc 63.54%
+Got 305/480 with acc 63.54%
+Got 305/480 with acc 63.54%
+Got 305/480 with acc 63.54%
+Got 305/480 with acc 63.54%
+Got 305/480 with acc 63.54%
+Got 305/480 with acc 63.54%
+Got 305/480 with acc 63.54%
+Got 305/480 with acc 63.54%
+Got 305/480 with acc 63.54%
+Got 305/480 with acc 63.54%
+Got 305/480 with acc 63.54%
+Got 305/480 with acc 63.54%
+Got 305/480 with acc 63.54%
+model MLP get best acc: 0.6354166666666666, the checkpoints is storaged in checkpoints/my_checkpoint
