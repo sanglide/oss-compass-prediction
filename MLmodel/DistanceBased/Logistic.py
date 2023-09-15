@@ -1,10 +1,10 @@
-from .FeatureBasedModel import FeatureBasedModel
+from .DistanceBasedModel import DistanceBasedModel
 import numpy as np
 from tqdm import tqdm
 from sklearn.linear_model import LogisticRegression
 
 
-class Logistic(FeatureBasedModel):
+class Logistic(DistanceBasedModel):
     def __init__(self, distName="Euclidean"):
         super(Logistic, self).__init__(distName)
         self.logistic = LogisticRegression(max_iter=100000)

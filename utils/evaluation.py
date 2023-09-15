@@ -93,4 +93,5 @@ def test(name, x_data, y_data, kf):
         y_pred = m.predict(X_test)
         Y_pred = np.concatenate([Y_pred, y_pred])
         Y_test = np.concatenate([Y_test, y_test])
+        print("1")
     evaluate(Y_test, Y_pred, name, draw=True)

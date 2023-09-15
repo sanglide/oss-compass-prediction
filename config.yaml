@@ -1,7 +1,6 @@
-read: multi-read
+read: feature-read
 
 
 model: 
-  name: Feature-Logistic-Euclidean
+  name: Feature-KNN
   split_count: 10
-

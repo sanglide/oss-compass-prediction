@@ -2,10 +2,15 @@ import os
 import csv
 import pandas as pd
 import numpy as np
+import configparser
+from tsfresh import select_features
+from tsfresh.utilities.dataframe_functions import impute
 
-result_path = '/home/confetti/oss/oss-compass-result/'
-filePaths = result_path + 'segment2/'
-Label_path = result_path + 'label.csv'
+# 读取ini配置文件
+config = configparser.ConfigParser()
+config.read('config.ini')
+result_path = config['path']['result_path']
+
 
 def Read():
     X, Y = [], []
@@ -19,6 +24,8 @@ def Read():
 
 
 def multiRead():
+    filePaths = result_path + 'segment2/'
+    Label_path = result_path + 'label.csv'
     LabelDict = {}
     with open(Label_path, 'r', newline='') as csvfile:
         csvreader = csv.reader(csvfile)
@@ -51,7 +58,20 @@ def multiRead():
     return X, Y    
 
 
+def featureRead():
+    featurePath = result_path + 'features/features.csv'
+    df = pd.read_csv(featurePath)
+    X, Y = df.iloc[:, 1:-1], df.iloc[:, -1]
+    X[X.columns] = X[X.columns].astype(float)
+    impute(X)   # 去除NaN数据
+    features_filtered = select_features(X, Y)   # 挑选特征
+    # features_filtered.columns为挑选的特征的名字
+    return features_filtered.values, Y.values
+
+
+
 read_dict = {
     "read": Read,
     "multi-read": multiRead,
+    "feature-read": featureRead
 }

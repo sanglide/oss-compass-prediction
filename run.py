@@ -3,6 +3,9 @@ from sklearn.model_selection import StratifiedKFold
 from MLmodel.model_dict import MLmodel_dict
 from utils.evaluation import test
 from utils.read import read_dict
+import warnings
+
+warnings.filterwarnings("ignore")
 
 with open('config.yaml', 'r') as yaml_file:
     config = yaml.load(yaml_file, Loader=yaml.FullLoader)
