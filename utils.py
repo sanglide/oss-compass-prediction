@@ -62,6 +62,8 @@ def split_appropriate_timeline(repo_full_name, data_period_days, forecast_gap_da
 
         start_time_d = datetime.datetime.strptime(timeline_start_time, '%Y-%m-%d')
         end_time_d = datetime.datetime.strptime(timeline_end_time, '%Y-%m-%d')
+        updated_d=datetime.datetime.strptime(list(repo_raw_data['metadata__enriched_on_activity'])[0][:10], '%Y-%m-%d')
+
         forecast_gap_days_d, data_period_days, label_period_days = datetime.timedelta(
             days=forecast_gap_days), datetime.timedelta(days=data_period_days), datetime.timedelta(
             days=label_period_days)
@@ -69,17 +71,25 @@ def split_appropriate_timeline(repo_full_name, data_period_days, forecast_gap_da
         terminal_event_start_idx = -1
         repo_raw_data_index = repo_raw_data.index
 
-        active_count=0
-        for idx in range(len(repo_raw_data)):
-            idx_date = datetime.datetime.strptime(
-                repo_raw_data.loc[repo_raw_data_index[idx], 'grimoire_creation_date'][:10], '%Y-%m-%d')
-            if idx_date < end_time_d - label_period_days:
-                break
-            if float(repo_raw_data.loc[repo_raw_data_index[idx], 'commit_frequency_activity']) <= float(frequency_threshold):
-                active_count=active_count+1
-            if active_count>=float(active_count_value):
-                terminal_event_start_idx = repo_raw_data_index[idx]
-                break
+        if end_time_d<updated_d-label_period_days:
+            terminal_event_start_idx=repo_raw_data_index[len(repo_raw_data)-1]
+        else:
+
+            for idx in range(len(repo_raw_data)):
+                idx_date = datetime.datetime.strptime(
+                    repo_raw_data.loc[repo_raw_data_index[idx], 'grimoire_creation_date'][:10], '%Y-%m-%d')
+                if idx_date < end_time_d - label_period_days:
+                    break
+                if float(repo_raw_data.loc[repo_raw_data_index[idx], 'commit_frequency_activity']) <= float(frequency_threshold):
+                    active_count = 0
+                    for i in range(int(active_count_value)):
+                        if float(repo_raw_data.loc[repo_raw_data_index[idx], 'commit_frequency_activity']) <= float(frequency_threshold):
+                            active_count = active_count + 1
+                        else:
+                            break
+                    if active_count>=float(active_count_value):
+                        terminal_event_start_idx = repo_raw_data_index[idx]
+                        break
 
         # for idx, record in enumerate(repo_raw_data):
         #     # read each record in the repo's raw data in time increasing order
