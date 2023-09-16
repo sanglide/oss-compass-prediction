@@ -1,13 +1,15 @@
 from .FeatureBasedModel import FeatureBasedModel
-from sklearn.svm import LinearSVC 
+from sklearn.ensemble import RandomForestClassifier
 
-class SVM(FeatureBasedModel):
+class RandomForest(FeatureBasedModel):
     def __init__(self):
-        super(SVM, self).__init__()
-        self.model = LinearSVC()
+        super(RandomForest, self).__init__()
+        self.model = RandomForestClassifier()
+
 
     def fit(self, X_train, Y_train):
         self.model.fit(X_train, Y_train)
+
 
     def predict(self, X_test):
         return self.model.predict(X_test)

@@ -5,6 +5,8 @@ from .DistanceBased.Logistic import Logistic
 from .InstanceBased.KNN import KNN as InstanceKNN
 from .FeatureBased.KNN import KNN as FeatureKNN
 from .FeatureBased.SVM import SVM as FeatureSVM
+from .FeatureBased.RandomForest import RandomForest
+from .FeatureBased.XGBoost import XGBoost
 
 MLmodel_dict = {
     "Distance-Logistic-Euclidean": Logistic('Euclidean'),
@@ -21,4 +23,6 @@ MLmodel_dict = {
     "Instance-KNN-Manhattan": InstanceKNN('Manhattan'),
     "Feature-KNN": FeatureKNN(),
     "Feature-SVM": FeatureSVM(),
+    "RandomForest": RandomForest(),
+    "XGBoost": XGBoost(),
 }
