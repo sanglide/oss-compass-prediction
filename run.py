@@ -1,4 +1,5 @@
 import yaml
+import numpy as np
 from sklearn.model_selection import StratifiedKFold
 from MLmodel.model_dict import MLmodel_dict
 from utils.evaluation import test
@@ -28,3 +29,15 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+
+    # The next code is to get the selected_features, used for feature prediction
+    # when use the seected_features, we should read them from txt, and transform them into numpy arrays
+    # then transform them into the columns of the dataframe
+
+
+    # with open("selected_features.txt", 'r') as file:
+    #     lines = file.readlines()
+    # lines = [line.strip() for line in lines]
+    # string_array = np.array(lines)
+    # print(string_array)

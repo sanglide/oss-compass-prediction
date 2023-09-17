@@ -23,6 +23,6 @@ MLmodel_dict = {
     "Instance-KNN-Manhattan": InstanceKNN('Manhattan'),
     "Feature-KNN": FeatureKNN(),
     "Feature-SVM": FeatureSVM(),
-    "RandomForest": RandomForest(),
-    "XGBoost": XGBoost(),
+    "Feature-RandomForest": RandomForest(),
+    "Feature-XGBoost": XGBoost(),
 }

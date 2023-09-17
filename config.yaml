@@ -2,5 +2,5 @@ read: feature-read
 
 
 model: 
-  name: XGBoost
+  name: Feature-SVM
   split_count: 10
