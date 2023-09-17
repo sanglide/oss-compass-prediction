@@ -1,10 +1,10 @@
 from .FeatureBasedModel import FeatureBasedModel
-from sklearn import svm
+from sklearn.linear_model import LogisticRegression
 
-class SVM(FeatureBasedModel):
+class Logistic(FeatureBasedModel):
     def __init__(self):
-        super(SVM, self).__init__()
-        self.model = svm.NuSVC()
+        super(Logistic, self).__init__()
+        self.model = LogisticRegression()
 
     def fit(self, X_train, Y_train):
         self.model.fit(X_train, Y_train)

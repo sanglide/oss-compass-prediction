@@ -35,7 +35,7 @@ def plot_matrix(conf_matrix, name):
     for i in range(2):
         for j in range(2):
             plt.text(j, i, '{:.2f}'.format(class_accuracy[i][j] * 100) + '%', ha="center", va="center",
-                     color="black" if conf_matrix[i][j] > thresh else "while")
+                     color="black" if conf_matrix[i][j] > thresh else "white")
     path = 'data/pic/' + name + '/'
     if not os.path.exists(path):
         os.makedirs(path)

@@ -1,10 +1,10 @@
 from .FeatureBasedModel import FeatureBasedModel
-from sklearn import svm
+from sklearn.naive_bayes import BernoulliNB
 
-class SVM(FeatureBasedModel):
+class Bernoulli_NB(FeatureBasedModel):
     def __init__(self):
-        super(SVM, self).__init__()
-        self.model = svm.NuSVC()
+        super(Bernoulli_NB, self).__init__()
+        self.model = BernoulliNB()
 
     def fit(self, X_train, Y_train):
         self.model.fit(X_train, Y_train)

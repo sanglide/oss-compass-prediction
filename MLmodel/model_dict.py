@@ -5,6 +5,13 @@ from .DistanceBased.Logistic import Logistic
 from .InstanceBased.KNN import KNN as InstanceKNN
 from .FeatureBased.KNN import KNN as FeatureKNN
 from .FeatureBased.SVM import SVM as FeatureSVM
+from .FeatureBased.GaussianNB import Gaussian_NB as FeatureGaussianNB
+from .FeatureBased.MultinomialNB import Multinomial_NB as FeatureMultinomialNB
+from .FeatureBased.BernoulliNB import Bernoulli_NB as FeatureBernoulliNB
+from .FeatureBased.RandomForest import RandomForest as FeatureRandomForest
+from .FeatureBased.DecisionTree import DecisionTree as FeatureDecisionTree
+from .FeatureBased.Logistic import Logistic as FeatureLogistic
+
 
 MLmodel_dict = {
     "Distance-Logistic-Euclidean": Logistic('Euclidean'),
@@ -20,5 +27,11 @@ MLmodel_dict = {
     "Instance-KNN-DTW": InstanceKNN('DTW'),
     "Instance-KNN-Manhattan": InstanceKNN('Manhattan'),
     "Feature-KNN": FeatureKNN(),
+    "Feature-GaussianNB": FeatureGaussianNB(),
+    "Feature-MultinomialNB": FeatureMultinomialNB(),
+    "Feature-BernoulliNB": FeatureBernoulliNB(),
+    "Feature-RandomForest": FeatureRandomForest(),
+    "Feature-DecisionTree": FeatureDecisionTree(),
+    "Feature-Logistic": FeatureLogistic(),
     "Feature-SVM": FeatureSVM(),
 }

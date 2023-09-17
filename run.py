@@ -19,8 +19,13 @@ def main():
     x_data, y_data = read_dict[read_func]()
     kf = StratifiedKFold(n_splits=split_count, shuffle=True, random_state=42)
     if model == "all":
-       for name, _ in MLmodel_dict.items():
-            test(name, x_data, y_data, kf) 
+        for name, _ in MLmodel_dict.items():
+            test(name, x_data, y_data, kf)
+    elif model.startswith("all"):
+        kind = model[3:-1]
+        for name, _ in MLmodel_dict.items():
+            if name.startswith(kind):
+                test(name, x_data, y_data, kf)
     elif MLmodel_dict.get(model) is None:
         print("you need provide a right model name")
     else:
