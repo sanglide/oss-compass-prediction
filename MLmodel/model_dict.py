@@ -7,6 +7,7 @@ from .FeatureBased.KNN import KNN as FeatureKNN
 from .FeatureBased.SVM import SVM as FeatureSVM
 from .FeatureBased.RandomForest import RandomForest
 from .FeatureBased.XGBoost import XGBoost
+from .FeatureBased.LogisticRegression import Logistic as FeatureLogistic
 
 MLmodel_dict = {
     "Distance-Logistic-Euclidean": Logistic('Euclidean'),
@@ -25,4 +26,5 @@ MLmodel_dict = {
     "Feature-SVM": FeatureSVM(),
     "Feature-RandomForest": RandomForest(),
     "Feature-XGBoost": XGBoost(),
+    "Feature-Logistic": FeatureLogistic(),
 }

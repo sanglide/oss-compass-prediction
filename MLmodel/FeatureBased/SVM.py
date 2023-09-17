@@ -1,5 +1,6 @@
 from .FeatureBasedModel import FeatureBasedModel
-from sklearn.svm import LinearSVC 
+from sklearn.svm import LinearSVC
+
 
 class SVM(FeatureBasedModel):
     def __init__(self):
