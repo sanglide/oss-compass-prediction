@@ -10,7 +10,8 @@ from .FeatureBased.MultinomialNB import Multinomial_NB as FeatureMultinomialNB
 from .FeatureBased.BernoulliNB import Bernoulli_NB as FeatureBernoulliNB
 from .FeatureBased.RandomForest import RandomForest as FeatureRandomForest
 from .FeatureBased.DecisionTree import DecisionTree as FeatureDecisionTree
-from .FeatureBased.Logistic import Logistic as FeatureLogistic
+from .FeatureBased.XGBoost import XGBoost as FeatureXGBoost
+from .FeatureBased.LogisticRegression import Logistic as FeatureLogistic
 
 
 MLmodel_dict = {
@@ -32,6 +33,7 @@ MLmodel_dict = {
     "Feature-BernoulliNB": FeatureBernoulliNB(),
     "Feature-RandomForest": FeatureRandomForest(),
     "Feature-DecisionTree": FeatureDecisionTree(),
-    "Feature-Logistic": FeatureLogistic(),
     "Feature-SVM": FeatureSVM(),
+    "Feature-XGBoost": FeatureXGBoost(),
+    "Feature-Logistic": FeatureLogistic(),
 }

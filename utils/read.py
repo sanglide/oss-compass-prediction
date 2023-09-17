@@ -55,17 +55,22 @@ def multiRead():
                 X.append(np.array(ts))
                 Y.append(int(LabelDict[filename]))
     X, Y = np.array(X), np.array(Y)
-    return X, Y    
+    return X, Y
 
 
 def featureRead():
-    featurePath = result_path + 'features/features.csv'
+    featurePath = result_path + 'features\\features.csv'
+    print(featurePath)
     df = pd.read_csv(featurePath)
     X, Y = df.iloc[:, 1:-1], df.iloc[:, -1]
     X[X.columns] = X[X.columns].astype(float)
     impute(X)   # 去除NaN数据
-    features_filtered = select_features(X, Y)   # 挑选特征
-    # features_filtered.columns为挑选的特征的名字
+    features_filtered = select_features(X, Y)   # selected_features
+    # features_filtered.columns are the names of selected_features, it can be used for prediction
+    selected = features_filtered.columns
+    selected = selected.to_numpy()
+    np.savetxt("selected_features.txt", selected, delimiter=',', fmt='%s')
+    # selected_features is needed for future prediction,so we save it to txt file
     return features_filtered.values, Y.values
 
 

@@ -40,6 +40,8 @@ MLmodel:
     FeatureBasedModel.py: {基于feature的模型的基类}
     KNN.py: {KNN模型}
     SVM.py: {SVM模型}
+    RandomForest: {随机森林模型}
+    XGBoost: {XGBoost模型}
     __init__.py: {}
   InstanceBased:
     InstanceBasedModel.py: {基于instance的模型的基类}

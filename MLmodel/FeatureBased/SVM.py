@@ -1,10 +1,12 @@
 from .FeatureBasedModel import FeatureBasedModel
-from sklearn import svm
+from sklearn.svm import LinearSVC
+
 
 class SVM(FeatureBasedModel):
     def __init__(self):
         super(SVM, self).__init__()
-        self.model = svm.NuSVC()
+        self.model = LinearSVC()
+
 
     def fit(self, X_train, Y_train):
         self.model.fit(X_train, Y_train)
