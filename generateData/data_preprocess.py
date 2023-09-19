@@ -9,7 +9,7 @@ read data from CSV files by [login_name/repo_name]
 '''
 
 config = configparser.ConfigParser()
-config.read('config.ini')
+config.read('../config.ini')
 data_path = config['path']['data_path']
 problem_repo = config['path']['problem_repo'].split(",")
 file_list = config['path']['file_list'].split(",")
@@ -41,7 +41,7 @@ def process_raw_data():
     # 2. for every compass_metric_model_{}.csv, for every repo, generate "raw csv"
     for metric in file_list:
         metric_suffix = metric.replace("compass_metric_model_", "")
-        metric_file_path = result_path + "raw\\"
+        metric_file_path = result_path + "raw/"
         # 2.1 create file
         reader_temp = pd.read_csv(data_path + metric, iterator=True)
         while True:
@@ -70,8 +70,8 @@ def validation_timeline(repo):
 
     for f in file_list:
         file_suffix = f.replace("compass_metric_model", "")
-        if os.path.exists(f'{result_path}raw\\{repo.replace("/", "_")}{file_suffix}'):
-            temp_data_df = pd.read_csv(f'{result_path}raw\\{repo.replace("/", "_")}{file_suffix}',low_memory=False)
+        if os.path.exists(f'{result_path}raw/{repo.replace("/", "_")}{file_suffix}'):
+            temp_data_df = pd.read_csv(f'{result_path}raw/{repo.replace("/", "_")}{file_suffix}',low_memory=False)
 
             temp_data_df.drop("_index", axis=1, inplace=True)
             temp_data_df.drop("uuid", axis=1, inplace=True)

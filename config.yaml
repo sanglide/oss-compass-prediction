@@ -1,0 +1,7 @@
+read: multi-read
+
+
+model: 
+  name: Feature-Logistic-Euclidean
+  split_count: 10
+
