@@ -15,6 +15,12 @@ problem_repo = config['path']['problem_repo'].split(",")
 file_list = config['path']['file_list'].split(",")
 result_path = config['path']['result_path']
 
+if not os.path.exists(f'{result_path}raw/'):
+    os.makedirs(f'{result_path}raw/')
+if not os.path.exists(f'{result_path}segment_data/'):
+    os.makedirs(f'{result_path}segment_data/')
+if not os.path.exists(f'{result_path}segment2/'):
+    os.makedirs(f'{result_path}segment2/')
 
 def process_raw_data():
     # 1. generate "repo list"

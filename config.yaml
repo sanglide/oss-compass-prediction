@@ -2,5 +2,5 @@ read: feature-read
 
 
 model: 
-  name: allFeature
+  name: Feature-DecisionTree
   split_count: 10

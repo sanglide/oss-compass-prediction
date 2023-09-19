@@ -7,10 +7,12 @@ import configparser
 
 # 读取ini配置文件
 config = configparser.ConfigParser()
-config.read('config.ini')
+config.read('../config.ini')
 result_path = config['path']['result_path']
 filePaths = result_path + 'segment2/'
-featurePaths = result_path + 'features/·'
+featurePaths = result_path + 'features/'
+if not os.path.exists(featurePaths):
+    os.makedirs(featurePaths)
 Label_path = result_path + 'label.csv'
 
 
@@ -39,6 +41,7 @@ def get_data_feature(Label_path, filePaths):
                 X = X.iloc[:, 1:]
                 X['label'] = LabelDict[filename]
                 df_new = pd.concat([df_new, X])
+        #todo: 为什么不把写操作放到for循环外面，写一次就行了？
         df_new.to_csv(featurePaths + "features.csv")
 
 
