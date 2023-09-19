@@ -1,9 +1,11 @@
 from ..baseModel import BaseModel
+from ..distance_measure import *
 
 
-class FeatureBasedModel(BaseModel):
-    def __init__(self):
-        super(FeatureBasedModel, self).__init__()
+class DistanceBasedModel(BaseModel):
+    def __init__(self, distName):
+        super(DistanceBasedModel, self).__init__()
+        self.distanceMeasure = distance_measure_dict[distName]
 
     def fit(self, X_train, Y_train):
         """

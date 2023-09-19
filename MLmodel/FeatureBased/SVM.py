@@ -1,10 +1,12 @@
 from .FeatureBasedModel import FeatureBasedModel
-from sklearn.neighbors import KNeighborsClassifier
+from sklearn.svm import LinearSVC
 
-class KNN(FeatureBasedModel):
+
+class SVM(FeatureBasedModel):
     def __init__(self):
-        super(KNN, self).__init__()
-        self.model = KNeighborsClassifier()
+        super(SVM, self).__init__()
+        self.model = LinearSVC()
+
 
     def fit(self, X_train, Y_train):
         self.model.fit(X_train, Y_train)
