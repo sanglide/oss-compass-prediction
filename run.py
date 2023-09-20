@@ -30,16 +30,15 @@ def main():
     elif MLmodel_dict.get(model) is None:
         print("you need provide a right model name")
     else:
-        test(model, x_data, y_data, kf)    
+        test(model, x_data, y_data, kf)
+
 
 if __name__ == '__main__':
     main()
 
-
     # The next code is to get the selected_features, used for feature prediction
     # when use the seected_features, we should read them from txt, and transform them into numpy arrays
     # then transform them into the columns of the dataframe
-
 
     # with open("selected_features.txt", 'r') as file:
     #     lines = file.readlines()
