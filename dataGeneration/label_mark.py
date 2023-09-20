@@ -27,22 +27,6 @@ frequency_threshold = config['active_value']['frequency_threshold']
 active_count_value = config['active_value']['active_count']
 
 
-# def observe_terminal_event(repo_raw_data, init_idx, data_period_days, forecast_gap_days, label_period_days):
-#     if repo_raw_data.loc[init_idx, 'commit_frequency_activity'] == 'NaN':
-#         return False
-#     # return whether a terminal event is observed in repo_raw_data starting from the record with index init_idx (inclusive)
-#     for i in range(label_period_days):
-#         if repo_raw_data[init_idx+i]['commit_frequency_activity'] > 0:
-#             return False
-#     return True
-
-# Ignore sample points for NAN, this strategy is pending discussion
-# if float(repo_raw_data.loc[init_idx, 'commit_frequency_activity']) > 0:
-#     return False
-# else:
-#     return True
-
-
 def split_appropriate_timeline(repo_full_name, data_period_days, forecast_gap_days, label_period_days):
     # 1. read raw data from repo_full_name
     # 2. scan and judge whether terminal event happens
@@ -71,7 +55,6 @@ def split_appropriate_timeline(repo_full_name, data_period_days, forecast_gap_da
         terminal_event_start_idx = -1
         repo_raw_data_index = repo_raw_data.index
 
-<<<<<<< HEAD:utils.py
         if end_time_d<updated_d-label_period_days:
             terminal_event_start_idx=repo_raw_data_index[len(repo_raw_data)-1]
         else:
@@ -91,20 +74,6 @@ def split_appropriate_timeline(repo_full_name, data_period_days, forecast_gap_da
                     if active_count>=float(active_count_value):
                         terminal_event_start_idx = repo_raw_data_index[idx]
                         break
-=======
-        active_count = 0
-        for idx in range(len(repo_raw_data)):
-            idx_date = datetime.datetime.strptime(
-                repo_raw_data.loc[repo_raw_data_index[idx], 'grimoire_creation_date'][:10], '%Y-%m-%d')
-            if idx_date < end_time_d - label_period_days:
-                break
-            if float(repo_raw_data.loc[repo_raw_data_index[idx], 'commit_frequency_activity']) <= float(
-                    frequency_threshold):
-                active_count = active_count + 1
-            if active_count >= float(active_count_value):
-                terminal_event_start_idx = repo_raw_data_index[idx]
-                break
->>>>>>> refs/remotes/origin/main:generateData/marking.py
 
         # for idx, record in enumerate(repo_raw_data):
         #     # read each record in the repo's raw data in time increasing order
