@@ -7,7 +7,7 @@ import configparser
 
 # 读取ini配置文件
 config = configparser.ConfigParser()
-config.read('../config.ini')
+config.read('../config.ini','utf-8')
 result_path = config['path']['result_path']
 filePaths = result_path + 'segment2/'
 featurePaths = result_path + 'features/'

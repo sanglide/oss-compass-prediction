@@ -245,21 +245,24 @@ def script_classification_ml_multi_sizes(time_of_execution):
     data_dir = config['path']['data_path']
     result_folder_path = f"{result_root_dir}{time_of_execution}/"
 
-    n_shapelets = global_settings.N_SHAPELETS
-    window_step = global_settings.WINDOW_STEP
-    n_channels = global_settings.N_CHANNELS
-    n_jobs = global_settings.N_JOBS
+    n_shapelets = int(config['shapelets']['n_shapelets'])
+    window_step = int(config['shapelets']['window_step'])
+    n_channels = int(config['shapelets']['n_channels'])
+    n_jobs = int(config['shapelets']['n_jobs'])
+
 
     list_data_period_months, list_forecast_gap_months, list_label_period_months = [int(
         config['time_value']['data_period_days']) / 30], [int(
         config['time_value'][
-            'forecast_gap_days']) /], [int(config['time_value']['label_period_days']) / 30]
+            'forecast_gap_days'])/30], [int(config['time_value']['label_period_days']) / 30]
     # 以data point为单位
-    list_window_size = global_settings.LIST_WINDOW_SIZE  # , 8, 12, 16, 20, 24]   # , 28, 32, 36, 40, 44, 48]
-    list_evolution_event_selection = global_settings.EVOLUTION_EVENT_COMBINATIONS
+    list_window_size = [int(x) for x in config['shapelets']['list_window_size'].split(',')]
+    list_evolution_event_selection = [[0], [1], [2], [3], [0, 1], [0, 2], [0, 3], [1, 2], [1, 3], [2, 3], [0, 1, 2],
+                                [0, 1, 3], [0, 2, 3], [1, 2, 3], [0, 1, 2, 3]]
 
-    train_data_path = f"{data_dir}index_productivity_32.csv"
-    test_data_path = f"{data_dir}index_productivity_696.csv"
+    # todo: this position need to be changed
+    # train_data_path = f"{data_dir}index_productivity_32.csv"
+    # test_data_path = f"{data_dir}index_productivity_696.csv"
 
     count = 1
     total_count = len(list_label_period_months) * len(list_forecast_gap_months) * len(list_data_period_months) * len(
@@ -278,10 +281,6 @@ def script_classification_ml_multi_sizes(time_of_execution):
                                             n_shapelets, window_size, window_step, n_channels,
                                             test_data_path, result_folder_path, train_data_path,
                                             evolution_event_selection, is_multi_sizes=True, do_discritize=False)
-                    # execute_classify_direct(label_period_months, forecast_gap_months, data_period_months,
-                    #                         n_shapelets, window_size, window_step, n_channels,
-                    #                         test_data_path, result_folder_path, train_data_path,
-                    #                         evolution_event_selection, is_multi_sizes=True, do_discritize=True)
 
                     print(f"************ Classify {count}/{total_count} ten fold on test")
 
