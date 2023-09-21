@@ -1,47 +1,54 @@
 import yaml
-import numpy as np
+import os
 from sklearn.model_selection import StratifiedKFold
 from MLmodel.model_dict import MLmodel_dict
-from utils.evaluation import test
+from utils.evaluation import test, mix_test
 from utils.read import read_dict
+from utils.wrapper import timeit
+from generate_html.generate_html import generate_html
 import warnings
+import shutil
 
 warnings.filterwarnings("ignore")
 
 with open('config.yaml', 'r') as yaml_file:
     config = yaml.load(yaml_file, Loader=yaml.FullLoader)
 
-read_func = config['read']
-model = config['model']['name']
+model_name = config['model']['name']
 split_count = config['model']['split_count']
+is_html = config['visualization']['html']
+is_mix = config['test']['isMix']
+model_list = config['test']['model_list']
 
 
+@timeit
 def main():
-    x_data, y_data = read_dict[read_func]()
     kf = StratifiedKFold(n_splits=split_count, shuffle=True, random_state=42)
-    if model == "all":
-        for name, _ in MLmodel_dict.items():
+    if is_html:
+        if os.path.exists('data/html'):
+            shutil.rmtree('data/html')
+        if os.path.exists('generate_html/outputs'):
+            shutil.rmtree('generate_html/outputs')
+    if is_mix:
+        x_data, y_data = read_dict[MLmodel_dict[model_list[0]].get_read_func()]()
+        mix_test(model_list, x_data, y_data, kf)
+    elif model_name == "all":
+        for name, model in MLmodel_dict.items():
+            x_data, y_data = read_dict[model.get_read_func()]()
             test(name, x_data, y_data, kf)
-    elif model.startswith("all"):
-        kind = model[3:-1]
-        for name, _ in MLmodel_dict.items():
+    elif model_name.startswith("all"):
+        kind = model_name[3:-1]
+        for name, model in MLmodel_dict.items():
             if name.startswith(kind):
+                x_data, y_data = read_dict[model.get_read_func()]()
                 test(name, x_data, y_data, kf)
-    elif MLmodel_dict.get(model) is None:
+    elif MLmodel_dict.get(model_name) is None:
         print("you need provide a right model name")
     else:
-        test(model, x_data, y_data, kf)
-
+        x_data, y_data = read_dict[MLmodel_dict[model_name].get_read_func()]()
+        test(model_name, x_data, y_data, kf)     
+    if is_html:
+        generate_html()
 
 if __name__ == '__main__':
     main()
-
-    # The next code is to get the selected_features, used for feature prediction
-    # when use the seected_features, we should read them from txt, and transform them into numpy arrays
-    # then transform them into the columns of the dataframe
-
-    # with open("selected_features.txt", 'r') as file:
-    #     lines = file.readlines()
-    # lines = [line.strip() for line in lines]
-    # string_array = np.array(lines)
-    # print(string_array)

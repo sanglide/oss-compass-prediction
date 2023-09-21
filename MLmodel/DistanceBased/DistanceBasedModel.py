@@ -6,6 +6,8 @@ class DistanceBasedModel(BaseModel):
     def __init__(self, distName):
         super(DistanceBasedModel, self).__init__()
         self.distanceMeasure = distance_measure_dict[distName]
+        self.read_func = "common-read"
+        self.baseModel = "distance"
 
     def fit(self, X_train, Y_train):
         """

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ page_title }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+        h1 {
+            color: #333;
+            font-size: 40px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        p {
+            color: #666;
+            font-size: 20px;
+            text-align: center;
+        }
+	.title-and-image {
+	    page-break-inside: avoid;
+	}
+	.folder-title {
+            font-size: 24px;
+            margin-bottom: 10px;
+	    text-align: center;
+        }
+        .image-container {
+            display: flex;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+	.image-container .image-item {
+            flex: 0 0 50%;
+            padding: 5px;
+            box-sizing: border-box;
+        }
+        .image-container img {
+            max-width: 90%;
+	    height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+        .image-container hr {
+            border: 1px solid #ccc;
+            margin: 0 10px;
+	    align:center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>{{ main_title }}</h1>
+	<p>{{ description }}</p>
+        {% for folder_data in folders_data %}
+	    <div class="title-and-image">
+            	<div class="folder-title">{{ folder_data.folder_name }}</div>
+            	<div class="image-container">
+                    {% for image in folder_data.images %}
+                    	<div class="image-item">
+                        	<img src="{{ image.path }}" alt="{{ image.title }}">
+                    	</div>
+                	{% endfor %}
+            	</div>
+	        <hr>
+	    </div>
+        {% endfor %}
+    </div>
+</body>
+</html>

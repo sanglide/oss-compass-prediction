@@ -4,6 +4,8 @@ from ..baseModel import BaseModel
 class FeatureBasedModel(BaseModel):
     def __init__(self):
         super(FeatureBasedModel, self).__init__()
+        self.read_func = "feature-read"
+        self.baseModel = "feature"
 
     def fit(self, X_train, Y_train):
         """

@@ -12,18 +12,7 @@ config.read('config.ini')
 result_path = config['path']['result_path']
 
 
-def Read():
-    X, Y = [], []
-    df = pd.read_csv('data/old/data.csv', header=None)
-    datas = df.to_numpy()
-    for data in datas:
-        X.append(data[1:])
-        Y.append(data[0])
-    X, Y = np.array(X), np.array(Y)
-    return X, Y
-
-
-def multiRead():
+def commonRead():
     filePaths = result_path + 'segment2/'
     Label_path = result_path + 'label.csv'
     LabelDict = {}
@@ -55,28 +44,26 @@ def multiRead():
                 X.append(np.array(ts))
                 Y.append(int(LabelDict[filename]))
     X, Y = np.array(X), np.array(Y)
-    return X, Y
+    return X, Y    
 
 
 def featureRead():
-    featurePath = result_path + 'features\\features.csv'
-    print(featurePath)
+    featurePath = result_path + 'features/features.csv'
     df = pd.read_csv(featurePath)
     X, Y = df.iloc[:, 1:-1], df.iloc[:, -1]
     X[X.columns] = X[X.columns].astype(float)
     impute(X)   # 去除NaN数据
-    features_filtered = select_features(X, Y)   # selected_features
-    # features_filtered.columns are the names of selected_features, it can be used for prediction
+    features_filtered = select_features(X, Y, fdr_level=1e-6)   # 挑选特征
+    # features_filtered.columns为挑选的特征的名字
     selected = features_filtered.columns
-    selected = selected.to_numpy()
-    np.savetxt("selected_features.txt", selected, delimiter=',', fmt='%s')
-    # selected_features is needed for future prediction,so we save it to txt file
+    selected =  selected.to_numpy()
+    if not os.path.exists("select_features.txt"):
+        np.savetxt("select_features.txt", selected, delimiter=',', fmt='%s')
     return features_filtered.values, Y.values
 
 
 
 read_dict = {
-    "read": Read,
-    "multi-read": multiRead,
+    "common-read": commonRead,
     "feature-read": featureRead
 }

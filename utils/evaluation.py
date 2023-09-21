@@ -34,18 +34,20 @@ def plot_matrix(conf_matrix, name):
     thresh = 0.5
     for i in range(2):
         for j in range(2):
-            plt.text(j, i, '{:.2f}'.format(class_accuracy[i][j] * 100) + '%', ha="center", va="center",
-                     color="black" if conf_matrix[i][j] > thresh else "white")
+            plt.text(j, i, class_accuracy[i][j], ha="center", va="center",
+                     color="black" if conf_matrix[i][j] < thresh else "white")
     path = 'data/pic/' + name + '/'
+    path_html = 'data/html/' + name + '/'
     if not os.path.exists(path):
         os.makedirs(path)
+    if not os.path.exists(path_html):
+        os.makedirs(path_html)
     plt.savefig(path + name + 'Confusion_Matrix' + '.png')
+    plt.savefig(path_html + name + 'Confusion_Matrix' + '.png')
     plt.close()
 
-def evaluate(y_true, y_pred, name, printRaw=False, draw=False):
-    if printRaw:
-        print(f"the predict:{y_pred}")
-        print(f"the label:{y_true}")
+
+def evaluate(y_true, y_pred, name, draw=False):
     conf_matrix = confusion_matrix(y_true, y_pred)
     accuracy = accuracy_score(y_true, y_pred)
     precision = precision_score(y_true, y_pred)
@@ -76,9 +78,13 @@ def evaluate(y_true, y_pred, name, printRaw=False, draw=False):
         plt.legend(loc='lower right')
         plt.grid(True)
         path = 'data/pic/' + name
+        path_html = 'data/html/'+name        
         if not os.path.exists(path):
             os.makedirs(path)
+        if not os.path.exists(path_html):
+            os.makedirs(path_html)
         plt.savefig(path + '/' + name + '.png')
+        plt.savefig(path_html + '/' + name + '.png')
         plt.close()
 
 
@@ -94,3 +100,29 @@ def test(name, x_data, y_data, kf):
         Y_pred = np.concatenate([Y_pred, y_pred])
         Y_test = np.concatenate([Y_test, y_test])
     evaluate(Y_test, Y_pred, name, draw=True)
+
+
+def mix_test(model_list, x_data, y_data, kf):
+    model_type = MLmodel_dict.get(model_list[0]).get_base_model()
+    for name in model_list:
+        m = MLmodel_dict.get(name)
+        if model_type != m.get_base_model():
+            print("the models inherit from different parent classes")
+            assert 0
+    name = "-".join(model_list)
+    print("==================================" + name + "==================================")
+    Y_preds, Y_test = [], []
+    for train_index, test_index in kf.split(x_data, y_data):
+        X_train, X_test = x_data[train_index], x_data[test_index]
+        y_train, y_test = y_data[train_index], y_data[test_index]
+        y_cnt = np.zeros(len(y_test), dtype=int)
+        for mixed_model in model_list:
+            m = MLmodel_dict.get(mixed_model)
+            if m is not None:
+                m.fit(X_train, y_train)
+                y_hat = m.predict(X_test)
+                y_cnt += (y_hat == 1).astype(int) - (y_hat == 0).astype(int)
+        y_pred = (y_cnt >= 0).astype(int)
+        Y_preds.extend(y_pred)
+        Y_test.extend(y_test)
+    evaluate(np.array(Y_test), np.array(Y_preds), name, draw=True)

@@ -1,6 +1,15 @@
-read: feature-read
-
-
 model: 
-  name: Feature-DecisionTree
+  name: Feature-KNN
   split_count: 10
+
+
+visualization:
+  html: True
+
+
+test:
+  isMix: False
+  model_list:
+    - Feature-XGBoost
+    - Feature-RandomForest
+    - Feature-AdaBoost

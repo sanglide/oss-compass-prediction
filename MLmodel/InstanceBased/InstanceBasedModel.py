@@ -6,6 +6,8 @@ class InstanceBasedModel(BaseModel):
     def __init__(self, distName):
         super(InstanceBasedModel, self).__init__()
         self.distanceMeasure = distance_measure_dict[distName]
+        self.read_func = "common-read"
+        self.baseModel = "instance"
 
     def fit(self, X_train, Y_train):
         """

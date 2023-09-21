@@ -14,4 +14,7 @@ rm -rf *
 cd ../segment2 || exit
 rm -rf *
 
+cd ../features || exit
+rm -rf *
+
 echo "oss-compass-result文件夹已清空"

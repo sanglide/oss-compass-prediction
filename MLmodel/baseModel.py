@@ -2,9 +2,16 @@
 
 class BaseModel:
 
-    # def __init__(self, xx):
-    #     """初始化属性name和age"""
-    #     self.xx = xx
+    def __init__(self):
+        """初始化属性name和age"""
+        self.read_func = None
+        self.baseModel = None
+
+    def get_read_func(self):
+        return self.read_func
+    
+    def get_base_model(self):
+        return self.baseModel
 
     def fit(self, X_train, Y_train):
         """

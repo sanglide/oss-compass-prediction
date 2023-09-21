@@ -1,20 +1,27 @@
 import os
 import csv
 import pandas as pd
-from tsfresh import extract_features, extract_relevant_features, select_features
+from tsfresh import extract_features
 from tsfresh.feature_extraction import EfficientFCParameters
 import configparser
 
 # 读取ini配置文件
 config = configparser.ConfigParser()
-config.read('../config.ini')
+config.read('config.ini')
 result_path = config['path']['result_path']
 filePaths = result_path + 'segment2/'
 featurePaths = result_path + 'features/'
 Label_path = result_path + 'label.csv'
 
 
-labels = ['name', 'grimoire_creation_date', 'commit_frequency_activity', 'activity_score_activity']
+labels = [
+    "name",
+    "grimoire_creation_date",
+    "community_support_score_community",
+    "activity_score_activity",
+    "code_quality_guarantee_codequality",
+    "organizations_activity_group_activity",
+]
 
 
 def get_data_feature(Label_path, filePaths):

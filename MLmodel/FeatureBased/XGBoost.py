@@ -6,8 +6,8 @@ class XGBoost(FeatureBasedModel):
         super(XGBoost, self).__init__()
         self.model = XGBClassifier(
                     objective='binary:logistic',  # 二分类问题
-                    learning_rate=0.1,            # 学习率
-                    n_estimators=100,             # 树的数量
+                    learning_rate=0.01,            # 学习率
+                    n_estimators=217,             # 树的数量
                     max_depth=3,                  # 树的最大深度
                     random_state=42               # 随机种子，可选
                     )

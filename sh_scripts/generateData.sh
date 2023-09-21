@@ -3,6 +3,7 @@
 '
 
 python3 generateData/data_preprocess.py
-python3 generateData/marking.py
+python3 generateData/label_mark.py
+python3 generateData/feature_extraction.py
 
 echo "数据已经生成完毕"

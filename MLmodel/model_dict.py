@@ -5,13 +5,14 @@ from .DistanceBased.Logistic import Logistic
 from .InstanceBased.KNN import KNN as InstanceKNN
 from .FeatureBased.KNN import KNN as FeatureKNN
 from .FeatureBased.SVM import SVM as FeatureSVM
+from .FeatureBased.RandomForest import RandomForest as FeatureRandomForest
+from .FeatureBased.XGBoost import XGBoost as FeatureXGBoost
 from .FeatureBased.GaussianNB import Gaussian_NB as FeatureGaussianNB
 from .FeatureBased.MultinomialNB import Multinomial_NB as FeatureMultinomialNB
 from .FeatureBased.BernoulliNB import Bernoulli_NB as FeatureBernoulliNB
-from .FeatureBased.RandomForest import RandomForest as FeatureRandomForest
 from .FeatureBased.DecisionTree import DecisionTree as FeatureDecisionTree
-from .FeatureBased.XGBoost import XGBoost as FeatureXGBoost
 from .FeatureBased.LogisticRegression import Logistic as FeatureLogistic
+from .FeatureBased.AdaBoost import AdaBoost as FeatureAdaBoost
 
 
 MLmodel_dict = {
@@ -36,4 +37,5 @@ MLmodel_dict = {
     "Feature-SVM": FeatureSVM(),
     "Feature-XGBoost": FeatureXGBoost(),
     "Feature-Logistic": FeatureLogistic(),
+    "Feature-AdaBoost": FeatureAdaBoost(),
 }

@@ -16,7 +16,7 @@ The timeline of each feature is common.
 '''
 
 config = configparser.ConfigParser()
-config.read('../config.ini')
+config.read('config.ini')
 file_list = config['path']['file_list'].split(",")
 problem_repo = config['path']['problem_repo'].split(",")
 result_path = config['path']['result_path']
