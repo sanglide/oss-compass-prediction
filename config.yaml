@@ -1,15 +1,16 @@
 model: 
-  name: Feature-KNN
+  isMix: True
   split_count: 10
+  # isMix为False时生效
+  name: Feature-XGB
+  # isMix为True时生效
+  model_list:
+    - Feature-XGBoost
+    - Feature-RandomForest
+    - Feature-AdaBoost
 
 
 visualization:
   html: True
 
 
-test:
-  isMix: False
-  model_list:
-    - Feature-XGBoost
-    - Feature-RandomForest
-    - Feature-AdaBoost

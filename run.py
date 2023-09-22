@@ -17,8 +17,8 @@ with open('config.yaml', 'r') as yaml_file:
 model_name = config['model']['name']
 split_count = config['model']['split_count']
 is_html = config['visualization']['html']
-is_mix = config['test']['isMix']
-model_list = config['test']['model_list']
+is_mix = config['model']['isMix']
+model_list = config['model']['model_list']
 
 
 @timeit

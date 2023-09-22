@@ -34,8 +34,8 @@ def plot_matrix(conf_matrix, name):
     thresh = 0.5
     for i in range(2):
         for j in range(2):
-            plt.text(j, i, class_accuracy[i][j], ha="center", va="center",
-                     color="black" if conf_matrix[i][j] < thresh else "white")
+            plt.text(j, i, conf_matrix[i][j], ha="center", va="center",
+                     color="black" if class_accuracy[i][j] < thresh else "white")
     path = 'data/pic/' + name + '/'
     path_html = 'data/html/' + name + '/'
     if not os.path.exists(path):
@@ -109,7 +109,7 @@ def mix_test(model_list, x_data, y_data, kf):
         if model_type != m.get_base_model():
             print("the models inherit from different parent classes")
             assert 0
-    name = "-".join(model_list)
+    name = " and ".join(model_list)
     print("==================================" + name + "==================================")
     Y_preds, Y_test = [], []
     for train_index, test_index in kf.split(x_data, y_data):

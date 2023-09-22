@@ -20,7 +20,7 @@ def generate_html():
             for filename in os.listdir(folder_path):
                 if filename.endswith('.jpg') or filename.endswith('.png'):
                     image_path = os.path.join(folder_path, filename)
-                    images.append({'path': image_path, 'title': filename})
+                    images.append({'path': '../../' + image_path, 'title': filename})
             data['folders_data'].append({'folder_name': folder_name, 'images': images})
 
     html_output = template.render(data)
