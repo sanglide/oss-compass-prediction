@@ -5,6 +5,7 @@ import numpy as np
 import configparser
 from tsfresh import select_features
 from tsfresh.utilities.dataframe_functions import impute
+from .wrapper import deprecated
 
 # 读取ini配置文件
 config = configparser.ConfigParser()
@@ -47,6 +48,7 @@ def commonRead():
     return X, Y    
 
 
+@deprecated
 def featureRead():
     featurePath = result_path + 'features/features.csv'
     df = pd.read_csv(featurePath)
@@ -57,13 +59,26 @@ def featureRead():
     # features_filtered.columns为挑选的特征的名字
     selected = features_filtered.columns
     selected =  selected.to_numpy()
-    if not os.path.exists("select_features.txt"):
-        np.savetxt("select_features.txt", selected, delimiter=',', fmt='%s')
+    # if not os.path.exists("select_features.txt"):
+    np.savetxt("select_features.txt", selected, delimiter=',', fmt='%s')
     return features_filtered.values, Y.values
 
+
+def FixedFeatureRead():
+    featurePath = result_path + 'features/features.csv'
+    df = pd.read_csv(featurePath)
+    df = df.fillna(0)
+    X, Y = df.iloc[:, 1: -1], df.iloc[:, -1]
+    X[X.columns] = X[X.columns].astype(float)
+    with open("select_features.txt", 'r') as file:
+        lines = file.readlines()
+        lines = [line.strip() for line in lines]
+        features_filtered = X[lines]
+        return features_filtered.values, Y.values
 
 
 read_dict = {
     "common-read": commonRead,
-    "feature-read": featureRead
+    "feature-read": featureRead,
+    "fixed-feature-read": FixedFeatureRead,
 }

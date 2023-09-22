@@ -1,8 +1,8 @@
 model: 
-  isMix: True
+  isMix: False
   split_count: 10
   # isMix为False时生效
-  name: Feature-XGB
+  name: Feature-XGBoost
   # isMix为True时生效
   model_list:
     - Feature-XGBoost
@@ -11,6 +11,6 @@ model:
 
 
 visualization:
-  html: True
+  html: False
 
 
