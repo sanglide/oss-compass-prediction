@@ -72,9 +72,9 @@ def shapelets_selection():
     X_test1, X_test2, X_test3, X_test4=store_csv_with_repo_list(repo_list_test, "index_test1")
 
     # X_train=[[X_train1[i][j] + X_train2[i][j] + X_train3[i][j] + X_train4[i][j] for j in range(len(X_train1[i]))] for i in range(len(X_train1))]
-    X_train=[[X_train1[i][j] + X_train2[i][j] for j in range(len(X_train1[i]))] for i in range(len(X_train1))]
+    X_train=[[X_train1[i][j] + X_train2[i][j]+ X_train3[i][j]   for j in range(len(X_train1[i]))] for i in range(len(X_train1))]
     # X_test=[[X_test1[i][j] + X_test2[i][j] + X_test3[i][j] + X_test4[i][j] for j in range(len(X_test1[i])) ]for i in range(len(X_test1))]
-    X_test=[[X_test1[i][j] + X_test2[i][j]for j in range(len(X_test1[i])) ]for i in range(len(X_test1))]
+    X_test=[[X_test1[i][j] + X_test2[i][j]+ X_test3[i][j] for j in range(len(X_test1[i])) ]for i in range(len(X_test1))]
 
     print(f'================== start learning =====================')
     print(f'train set : {len(X_train)} * {len(X_train[0])}')
