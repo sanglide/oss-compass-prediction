@@ -80,13 +80,13 @@ def execute_classify_direct(label_period_months, forecast_gap_months, data_perio
                             n_shapelets, window_size, window_step, n_channels,
                             test_data_path, result_folder_path, train_data_path, evolution_event_selection,
                             is_multi_sizes=False, do_discritize=False):
-    shapelet_file_name = util.get_shapelet_file_name(label_period_months, forecast_gap_months, data_period_months,
-                                                     n_shapelets, window_size, window_step, n_channels, train_data_path,
-                                                     evolution_event_selection)
-
-    train_feature_label_file_name = f"{result_folder_path}features/{shapelet_file_name}_32.csv"
-    if is_multi_sizes:
-        train_feature_label_file_name = f"{train_feature_label_file_name}.multi_sizes.csv"
+    # shapelet_file_name = util.get_shapelet_file_name(label_period_months, forecast_gap_months, data_period_months,
+    #                                                  n_shapelets, window_size, window_step, n_channels, train_data_path,
+    #                                                  evolution_event_selection)
+    #
+    # train_feature_label_file_name = f"{result_folder_path}features/{shapelet_file_name}_32.csv"
+    # if is_multi_sizes:
+    #     train_feature_label_file_name = f"{train_feature_label_file_name}.multi_sizes.csv"
     train_feature_label_data = pd.read_csv(train_feature_label_file_name)
     y_train = train_feature_label_data['label']
     heads = [col for col in train_feature_label_data.columns]
@@ -240,7 +240,7 @@ def execute_classify_ten_fold(label_period_months, forecast_gap_months, data_per
 
 def script_classification_ml_multi_sizes(time_of_execution):
     config = configparser.ConfigParser()
-    config.read('../config.ini')
+    config.read('../../config.ini')
     result_root_dir = config['path']['result_path']
     data_dir = config['path']['data_path']
     result_folder_path = f"{result_root_dir}{time_of_execution}/"
@@ -260,9 +260,8 @@ def script_classification_ml_multi_sizes(time_of_execution):
     list_evolution_event_selection = [[0], [1], [2], [3], [0, 1], [0, 2], [0, 3], [1, 2], [1, 3], [2, 3], [0, 1, 2],
                                 [0, 1, 3], [0, 2, 3], [1, 2, 3], [0, 1, 2, 3]]
 
-    # todo: this position need to be changed
-    # train_data_path = f"{data_dir}index_productivity_32.csv"
-    # test_data_path = f"{data_dir}index_productivity_696.csv"
+    train_data_path = f"{data_dir}index_train1.csv"
+    test_data_path = f"{data_dir}index_test1.csv"
 
     count = 1
     total_count = len(list_label_period_months) * len(list_forecast_gap_months) * len(list_data_period_months) * len(
