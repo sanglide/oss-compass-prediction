@@ -103,6 +103,8 @@ def shapelets_selection():
                            random_state=42, sort=True)
     X_new = st.fit_transform(X_train, y_train)
 
+    print(st.indices_[:4])
+
     # Visualize the four most discriminative shapelets
     print(f'===================== end train ============================')
     for i, index in enumerate(st.indices_[:4]):
