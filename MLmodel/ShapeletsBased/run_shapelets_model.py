@@ -85,17 +85,17 @@ def shapelets_selection():
               range(len(X_test1))]
     # X_test=[[X_test1[i][j] + X_test2[i][j]+ X_test3[i][j] for j in range(len(X_test1[i])) ]for i in range(len(X_test1))]
 
-    # print(f'================== start learning =====================')
-    # print(f'train set : {len(X_train)} * {len(X_train[0])}')
-    # print(f'test set : {len(X_test)} * {len(X_test[0])}')
-    #
-    # print(f'y_test : {Counter(y_test)} , y_train : {Counter(y_train)}')
-    #
-    # # clf=LearningShapelets(random_state=42,tol=0.01)
+    print(f'================== start learning =====================')
+    print(f'train set : {len(X_train)} * {len(X_train[0])}')
+    print(f'test set : {len(X_test)} * {len(X_test[0])}')
+
+    print(f'y_test : {Counter(y_test)} , y_train : {Counter(y_train)}')
+
     # clf=LearningShapelets(random_state=42,tol=0.01)
-    # clf.fit(X_train,y_train)
-    # y_predict=clf.predict(X_test)
-    # print(classification_report(y_test, y_predict))
+    clf=LearningShapelets(random_state=42,tol=0.01)
+    clf.fit(X_train,y_train)
+    y_predict=clf.predict(X_test)
+    print(classification_report(y_test, y_predict))
 
     # project_name,time,score1..., score4  所有的项目都拼接在一个csv里面
     print(f'================ find shapelets ====================')
@@ -107,17 +107,18 @@ def shapelets_selection():
 
     # Visualize the four most discriminative shapelets
     print(f'===================== end train ============================')
+
     for i, index in enumerate(st.indices_[:4]):
         plt.figure(figsize=(6, 4))
         idx, start, end = index
         # plt.plot(X_train[idx], color='C{}'.format(i),
         #          label='Sample {}'.format(idx))
-        plt.plot(np.arange(start, end), X_train1[idx, start:end],
-                 color='C{}'.format(i), label='Sample {}'.format(idx))
-        plt.plot(np.arange(start, end), X_train2[idx, start:end],
-                 color='C{}'.format(i), label='Sample {}'.format(idx))
-        plt.plot(np.arange(start, end), X_train3[idx, start:end],
-                 color='C{}'.format(i), label='Sample {}'.format(idx))
+        plt.plot(np.arange(start, end), X_train1[idx][start:end],
+                 color='C{}'.format(i), label='activity_score Sample {}'.format(idx))
+        plt.plot(np.arange(start, end), X_train2[idx][start:end],
+                 color='C{}'.format(i), label='community_support_score Sample {}'.format(idx))
+        plt.plot(np.arange(start, end), X_train3[idx][start:end],
+                 color='C{}'.format(i), label='code_quality_guarantee Sample {}'.format(idx))
 
         plt.xlabel('Time', fontsize=12)
         plt.title(f'The {i}-th most discriminative shapelets', fontsize=14)
