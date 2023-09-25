@@ -91,7 +91,6 @@ def shapelets_selection():
 
     print(f'y_test : {Counter(y_test)} , y_train : {Counter(y_train)}')
 
-    # clf=LearningShapelets(random_state=42,tol=0.01)
     clf=LearningShapelets(random_state=42,tol=0.01)
     clf.fit(X_train,y_train)
     y_predict=clf.predict(X_test)
@@ -107,8 +106,7 @@ def shapelets_selection():
 
     # Visualize the four most discriminative shapelets
     print(f'===================== end train ============================')
-
-    for i, index in enumerate(st.indices_[:4]):
+    for i, index in enumerate(st.indices_[:10]):
         plt.figure(figsize=(6, 4))
         idx, start, end = index
         # plt.plot(X_train[idx], color='C{}'.format(i),
@@ -116,9 +114,9 @@ def shapelets_selection():
         plt.plot(np.arange(start, end), X_train1[idx][start:end],
                  color='C{}'.format(i), label='activity_score Sample {}'.format(idx))
         plt.plot(np.arange(start, end), X_train2[idx][start:end],
-                 color='C{}'.format(i), label='community_support_score Sample {}'.format(idx))
+                 color='C{}'.format(i+1), label='community_support_score Sample {}'.format(idx))
         plt.plot(np.arange(start, end), X_train3[idx][start:end],
-                 color='C{}'.format(i), label='code_quality_guarantee Sample {}'.format(idx))
+                 color='C{}'.format(i+2), label='code_quality_guarantee Sample {}'.format(idx))
 
         plt.xlabel('Time', fontsize=12)
         plt.title(f'The {i}-th most discriminative shapelets', fontsize=14)
