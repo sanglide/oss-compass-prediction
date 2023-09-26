@@ -4,6 +4,7 @@ from sklearn.svm import LinearSVC, SVC
 class SVM(FeatureBasedModel):
     def __init__(self):
         super(SVM, self).__init__()
+        self.read_func = "feature-read_134"
         self.model = LinearSVC()
         # self.model = SVC(kernel='sigmoid', C=1.0) 
 

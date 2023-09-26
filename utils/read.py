@@ -64,13 +64,26 @@ def featureRead():
     return features_filtered.values, Y.values
 
 
-def FixedFeatureRead():
+def featureRead_134():
     featurePath = result_path + 'features/features.csv'
     df = pd.read_csv(featurePath)
     df = df.fillna(0)
     X, Y = df.iloc[:, 1: -1], df.iloc[:, -1]
     X[X.columns] = X[X.columns].astype(float)
-    with open("select_features.txt", 'r') as file:
+    with open("data/selectedData/select_features_134.txt", 'r') as file:
+        lines = file.readlines()
+        lines = [line.strip() for line in lines]
+        features_filtered = X[lines]
+        return features_filtered.values, Y.values
+
+
+def featureRead_596():
+    featurePath = result_path + 'features/features.csv'
+    df = pd.read_csv(featurePath)
+    df = df.fillna(0)
+    X, Y = df.iloc[:, 1: -1], df.iloc[:, -1]
+    X[X.columns] = X[X.columns].astype(float)
+    with open("data/selectedData/select_features_596.txt", 'r') as file:
         lines = file.readlines()
         lines = [line.strip() for line in lines]
         features_filtered = X[lines]
@@ -80,5 +93,6 @@ def FixedFeatureRead():
 read_dict = {
     "common-read": commonRead,
     "feature-read": featureRead,
-    "fixed-feature-read": FixedFeatureRead,
+    "feature-read_134": featureRead_134,
+    "feature-read_596": featureRead_596,
 }

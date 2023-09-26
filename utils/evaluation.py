@@ -54,8 +54,6 @@ def evaluate(y_true, y_pred, name, draw=False):
     recall = recall_score(y_true, y_pred)
     f1 = f1_score(y_true, y_pred)
     # 打印性能指标
-    print("混淆矩阵:")
-    print(conf_matrix)
     print("准确率:", accuracy)
     print("精确率:", precision)
     print("召回率:", recall)
@@ -64,8 +62,6 @@ def evaluate(y_true, y_pred, name, draw=False):
     auc = roc_auc_score(y_true, y_pred)
     # 打印AUC和ROC曲线相关信息
     print("AUC:", auc)
-    print("FPR:", fpr)
-    print("TPR:", tpr)
     if draw:
         plot_matrix(conf_matrix, name)
         plt.plot(fpr, tpr, linewidth=2, label=f'AUC = {auc:.2f}')
