@@ -1,8 +1,14 @@
+import time
+
 import seaborn as sns
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
-
+def closePlots():
+    plt.clf()
+    plt.cla()
+    plt.close("all")
+    time.sleep(0.5)
 def drawPlot(df):
     # sns.kdeplot(df, shade=True)
     # sns.boxplot(x=df)
@@ -32,6 +38,7 @@ def draw_plot(df,name,label):
     df.plot(x='grimoire_creation_date',y=['activity_score_activity',
              'community_support_score_community', 'code_quality_guarantee_codequality'])
     plt.savefig(f'./fig/{name}_label_{label}.png')
+    closePlots()
 
 
 if __name__=="__main__":
