@@ -111,22 +111,26 @@ def shapelets_selection():
                            random_state=42, sort=True)
     X_new = st.fit_transform(X_train, y_train)
 
-    print(st.indices_[:4])
+ #    # print(st.indices_[:4])
+ #    aa=[[ 15,63 ,69],
+ # [126 ,32 ,38],
+ # [ 15 , 84 , 93],
+ # [253 , 22 , 31]]
 
     # Visualize the four most discriminative shapelets
     print(f'===================== end train ============================')
-    for i, index in enumerate(st.indices_[:4]):
+    for i, index in enumerate(st.indices_):
+    # for i, index in enumerate(aa):
         plt.figure(figsize=(6, 4))
         idx, start, end = index
         # plt.plot(X_train[idx], color='C{}'.format(i),
         #          label='Sample {}'.format(idx))
-        plt.plot(np.arange(start, end), X_train1[idx, start:end],
-                 color='C{}'.format(i), label='Sample {}'.format(idx))
-        plt.plot(np.arange(start, end), X_train2[idx, start:end],
-                 color='C{}'.format(i), label='Sample {}'.format(idx))
-        plt.plot(np.arange(start, end), X_train3[idx, start:end],
-                 color='C{}'.format(i), label='Sample {}'.format(idx))
-
+        plt.plot(np.arange(start, end), np.array(X_train1)[idx, start:end],
+                 color='C{}'.format(i), label='activity_score {}'.format(idx))
+        plt.plot(np.arange(start, end), np.array(X_train2)[idx, start:end],
+                 color='C{}'.format(i+1), label='community_support_score {}'.format(idx))
+        plt.plot(np.arange(start, end), np.array(X_train3)[idx, start:end],
+                 color='C{}'.format(i+2), label='code_quality_guarantee {}'.format(idx))
         plt.xlabel('Time', fontsize=12)
         plt.title(f'The {i}-th most discriminative shapelets', fontsize=14)
         plt.legend(loc='best', fontsize=8)
