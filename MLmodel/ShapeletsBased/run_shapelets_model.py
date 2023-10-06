@@ -1,4 +1,5 @@
 import configparser
+import time
 from collections import Counter
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -24,27 +25,30 @@ def store_csv_with_repo_list(repo_list, filename, y):
     count = 0
     for repo in repo_list:
         if repo not in problem_repo and y[count] != -1:
-            y_new.append(y[count])
+            # y_new.append(y[count])
             df = pd.read_csv(f'{read_path}{repo.replace("/", "_")}.csv', usecols=[1, 21, 47, 63, 79])
             df.fillna(0, inplace=True)
 
             if len(df) < 105:
-                lst1, lst2, lst3, lst4 = list(df.iloc[:, 1]), list(df.iloc[:, 2]), list(df.iloc[:, 3]), list(
-                    df.iloc[:, 4])
-                zero = [float(0) for i in range(105 - len(df))]
-                lst1.extend(zero)
-                lst2.extend(zero)
-                lst3.extend(zero)
-                lst4.extend(zero)
-                X_test1.append(lst1)
-                X_test2.append(lst2)
-                X_test3.append(lst3)
-                X_test4.append(lst4)
+                # lst1, lst2, lst3, lst4 = list(df.iloc[:, 1]), list(df.iloc[:, 2]), list(df.iloc[:, 3]), list(
+                #     df.iloc[:, 4])
+                # zero = [float(0) for i in range(105 - len(df))]
+                # lst1.extend(zero)
+                # lst2.extend(zero)
+                # lst3.extend(zero)
+                # lst4.extend(zero)
+                # X_test1.append(lst1)
+                # X_test2.append(lst2)
+                # X_test3.append(lst3)
+                # X_test4.append(lst4)
+                print(f'jump {repo}')
             else:
                 X_test1.append(list(df.iloc[:, 1]))
                 X_test2.append(list(df.iloc[:, 2]))
                 X_test3.append(list(df.iloc[:, 3]))
                 X_test4.append(list(df.iloc[:, 4]))
+
+                y_new.append(y[count])
 
             repo_name_list = [repo for i in range(len(df))]
             df['repo_name'] = repo_name_list
@@ -59,7 +63,11 @@ def store_csv_with_repo_list(repo_list, filename, y):
         os.makedirs(f'{result_path}shapelets\\')
     df_new.to_csv(f'{result_path}shapelets\\{filename}.csv', index=False)
     return X_test1, X_test2, X_test3, X_test4, y_new
-
+def closePlots():
+    plt.clf()
+    plt.cla()
+    plt.close("all")
+    time.sleep(0.5)
 
 def shapelets_selection():
     # 1. 首先需要将四个维度单独分成训练集和测试集合（两个csv），并写到csv中（注意参考原来文件的写法）
@@ -85,17 +93,17 @@ def shapelets_selection():
               range(len(X_test1))]
     # X_test=[[X_test1[i][j] + X_test2[i][j]+ X_test3[i][j] for j in range(len(X_test1[i])) ]for i in range(len(X_test1))]
 
-    # print(f'================== start learning =====================')
-    # print(f'train set : {len(X_train)} * {len(X_train[0])}')
-    # print(f'test set : {len(X_test)} * {len(X_test[0])}')
-    #
-    # print(f'y_test : {Counter(y_test)} , y_train : {Counter(y_train)}')
-    #
-    # # clf=LearningShapelets(random_state=42,tol=0.01)
+    print(f'================== start learning =====================')
+    print(f'train set : {len(X_train)} * {len(X_train[0])}')
+    print(f'test set : {len(X_test)} * {len(X_test[0])}')
+
+    print(f'y_test : {Counter(y_test)} , y_train : {Counter(y_train)}')
+
     # clf=LearningShapelets(random_state=42,tol=0.01)
-    # clf.fit(X_train,y_train)
-    # y_predict=clf.predict(X_test)
-    # print(classification_report(y_test, y_predict))
+    clf=LearningShapelets(random_state=42,tol=0.01)
+    clf.fit(X_train,y_train)
+    y_predict=clf.predict(X_test)
+    print(classification_report(y_test, y_predict))
 
     # project_name,time,score1..., score4  所有的项目都拼接在一个csv里面
     print(f'================ find shapelets ====================')
@@ -122,7 +130,9 @@ def shapelets_selection():
         plt.xlabel('Time', fontsize=12)
         plt.title(f'The {i}-th most discriminative shapelets', fontsize=14)
         plt.legend(loc='best', fontsize=8)
-        plt.show()
+        plt.savefig(f'./shapelets_fig/shapelets_{i}_{idx}.png')
+
+        closePlots()
 
     # 2. 调用方法，记得更改路径
 
