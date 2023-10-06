@@ -30,17 +30,20 @@ def store_csv_with_repo_list(repo_list, filename, y):
             df.fillna(0, inplace=True)
 
             if len(df) < 105:
-                # lst1, lst2, lst3, lst4 = list(df.iloc[:, 1]), list(df.iloc[:, 2]), list(df.iloc[:, 3]), list(
-                #     df.iloc[:, 4])
-                # zero = [float(0) for i in range(105 - len(df))]
-                # lst1.extend(zero)
-                # lst2.extend(zero)
-                # lst3.extend(zero)
-                # lst4.extend(zero)
-                # X_test1.append(lst1)
-                # X_test2.append(lst2)
-                # X_test3.append(lst3)
-                # X_test4.append(lst4)
+                lst1, lst2, lst3, lst4 = list(df.iloc[:, 1]), list(df.iloc[:, 2]), list(df.iloc[:, 3]), list(
+                    df.iloc[:, 4])
+                zero = [float(0) for i in range(105 - len(df))]
+                lst1.extend(zero)
+                lst2.extend(zero)
+                lst3.extend(zero)
+                lst4.extend(zero)
+                X_test1.append(lst1)
+                X_test2.append(lst2)
+                X_test3.append(lst3)
+                X_test4.append(lst4)
+
+                y_new.append(y[count])
+
                 print(f'jump {repo}')
             else:
                 X_test1.append(list(df.iloc[:, 1]))
