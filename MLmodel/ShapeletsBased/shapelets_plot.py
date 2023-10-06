@@ -42,8 +42,8 @@ def draw_plot(df,name,label):
 
 
 if __name__=="__main__":
-    df1=pd.read_csv("E:\phd-one\project\oss-compass-result\shapelets\index_train1.csv")
-    df2=pd.read_csv("E:\phd-one\project\oss-compass-result\shapelets\index_test1.csv")
+    df1=pd.read_csv("shapelets\index_train1.csv")
+    df2=pd.read_csv("shapelets\index_test1.csv")
     df=pd.concat([df1,df2],axis=0)
     df = df.drop('grimoire_creation_date', axis=1)
     # 1. draw violin pic of 4 metrics
@@ -53,7 +53,7 @@ if __name__=="__main__":
     list_repo_name=list(df['repo_name'])
     list_label=[]
 
-    df_label=(pd.read_csv("E:\phd-one\project\oss-compass-result\label.csv"))
+    df_label=(pd.read_csv("label.csv"))
     dict_label={}
     df_label_repo_list=list(df_label["repo"])
     df_label_label_list=list(df_label["label"])
