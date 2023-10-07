@@ -29,8 +29,10 @@ def draw_TS():
     plt.tight_layout()
     plt.show()
 if __name__=="__main__":
-    df1=pd.read_csv("shapelets\index_train1.csv")
-    df2=pd.read_csv("shapelets\index_test1.csv")
+    result_path="C:\phd-one\project\oss-compass-result\\"
+
+    df1=pd.read_csv(result_path+"shapelets\index_train1.csv")
+    df2=pd.read_csv(result_path+"shapelets\index_test1.csv")
     df=pd.concat([df1,df2],axis=0)
     df = df.drop('grimoire_creation_date', axis=1)
     # 1. draw violin pic of 4 metrics
@@ -40,7 +42,7 @@ if __name__=="__main__":
     list_repo_name=list(df['repo_name'])
     list_label=[]
 
-    df_label=(pd.read_csv("label.csv"))
+    df_label=(pd.read_csv(result_path+"label.csv"))
     dict_label={}
     df_label_repo_list=list(df_label["repo"])
     df_label_label_list=list(df_label["label"])
@@ -55,7 +57,19 @@ if __name__=="__main__":
     print(df_new.columns)
 
     # 2.draw violin pics of 4 metrics by labels
-    drawPlotByLabel(df_new.iloc[:,[0,5]],'activity_score_activity')
-    drawPlotByLabel(df_new.iloc[:,[2,5]],'community_support_score_community')
-    drawPlotByLabel(df_new.iloc[:,[1,5]],'code_quality_guarantee_codequality')
-    drawPlotByLabel(df_new.iloc[:,[3,5]],'organizations_activity_group_activity')
+    # drawPlotByLabel(df_new.iloc[:,[0,5]],'activity_score_activity')
+    # drawPlotByLabel(df_new.iloc[:,[2,5]],'community_support_score_community')
+    # drawPlotByLabel(df_new.iloc[:,[1,5]],'code_quality_guarantee_codequality')
+    # drawPlotByLabel(df_new.iloc[:,[3,5]],'organizations_activity_group_activity')
+
+    fig, (ax1, ax2,ax3) = plt.subplots(1, 3, sharey=True)
+    sns.violinplot(x='labels',y='activity_score_activity',data=df_new.iloc[:,[0,5]],ax=ax1)
+    sns.violinplot(x='labels',y='community_support_score_community',data=df_new.iloc[:,[2,5]],ax=ax2)
+    sns.violinplot(x='labels',y='code_quality_guarantee_codequality',data=df_new.iloc[:,[1,5]],ax=ax3)
+    # ax1.set_ylabel('')
+    # ax2.set_ylabel('')
+    # ax3.set_ylabel('')
+
+
+
+    plt.show()
