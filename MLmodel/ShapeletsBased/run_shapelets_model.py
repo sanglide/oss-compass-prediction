@@ -209,13 +209,13 @@ if __name__ == "__main__":
         y_t3.extend(y_true3)
         y_t4.extend(y_true4)
 
-        print(f'========================  results  =========================')
-        print(classification_report(y_t1, predictions1))
-        print(classification_report(y_t2, predictions2))
-        print(classification_report(y_t3, predictions3))
-        print(classification_report(y_t4, predictions4))
-        draw_confusion_matrix(predictions1,y_t1,"./confusion_matrix/activity_score.png")
-        draw_confusion_matrix(predictions2,y_t2,"./confusion_matrix/community_support_score.png")
-        draw_confusion_matrix(predictions3,y_t3,"./confusion_matrix/code_quality_guarantee.png")
-        draw_confusion_matrix(predictions4,y_t4,"./confusion_matrix/organizations_activity.png")
-        i=i+1
+    print(f'========================  results  =========================')
+    print(classification_report(y_t1, pre1))
+    print(classification_report(y_t2, pre2))
+    print(classification_report(y_t3, pre3))
+    print(classification_report(y_t4, pre4))
+    draw_confusion_matrix(pre1,y_t1,"./confusion_matrix/activity_score.png")
+    draw_confusion_matrix(pre2,y_t2,"./confusion_matrix/community_support_score.png")
+    draw_confusion_matrix(pre3,y_t3,"./confusion_matrix/code_quality_guarantee.png")
+    draw_confusion_matrix(pre4,y_t4,"./confusion_matrix/organizations_activity.png")
+    i=i+1
