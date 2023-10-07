@@ -79,7 +79,7 @@ def closePlots():
     time.sleep(0.5)
 
 
-def draw_shapelets(st_index, X_train, label):
+def draw_shapelets(st_index, X_train, label,index):
     for i, index in enumerate(st_index):
         # for i, index in enumerate(aa):
         plt.figure(figsize=(6, 4))
@@ -91,7 +91,7 @@ def draw_shapelets(st_index, X_train, label):
         plt.xlabel('Time', fontsize=12)
         plt.title(f'The top {i} most discriminative shapelet for {label}', fontsize=14)
         plt.legend(loc='best', fontsize=8)
-        plt.savefig(f'./shapelets_fig/shapelets_{label}_{i}_{idx}.png')
+        plt.savefig(f'./shapelets_fig/shapelets_{index}_{label}_{i}_{idx}.png')
 
         closePlots()
 
@@ -131,7 +131,7 @@ def draw_confusion_matrix(y_pred,y_true,title):
     plt.savefig(title)
 
 
-def shapelets_selection(lst, not_lst, label, repo_list):
+def shapelets_selection(lst, not_lst, label, repo_list,index):
     # 1. 首先需要将四个维度单独分成训练集和测试集合（两个csv），并写到csv中（注意参考原来文件的写法）
     # set_lst = set(lst)
     # not_lst = [item for item in range(len(repo_list)) if item not in set_lst]
@@ -167,16 +167,16 @@ def shapelets_selection(lst, not_lst, label, repo_list):
     print(f'================ find shapelets ====================')
 
     st1, predictions1,y_true1 = shapelets_train_test(X_train1, y_train, X_test1, y_test)
-    draw_shapelets(st1, X_train1, "activity_score")
+    draw_shapelets(st1, X_train1, "activity_score",index)
 
     st2, predictions2,y_true2 = shapelets_train_test(X_train2, y_train, X_test2, y_test)
-    draw_shapelets(st2, X_train2, "community_support_score")
+    draw_shapelets(st2, X_train2, "community_support_score",index)
 
     st3, predictions3,y_true3 = shapelets_train_test(X_train3, y_train, X_test3, y_test)
-    draw_shapelets(st3, X_train3, "code_quality_guarantee")
+    draw_shapelets(st3, X_train3, "code_quality_guarantee",index)
 
     st4, predictions4,y_true4 = shapelets_train_test(X_train4, y_train, X_test4, y_test)
-    draw_shapelets(st4, X_train4, "organizations_activity")
+    draw_shapelets(st4, X_train4, "organizations_activity",index)
 
     # Visualize the four most discriminative shapelets
     # 2. 调用方法，记得更改路径
@@ -196,9 +196,10 @@ if __name__ == "__main__":
     # 将数据集拆分成十个子集
     splits = kfold.split(df)
     pre1, y_t1, pre2, y_t2, pre3, y_t3, pre4, y_t4=[],[],[],[],[],[],[],[]
+    i=0
     for train_index, test_index in splits:
         predictions1,y_true1,predictions2,y_true2,predictions3,y_true3,predictions4,y_true4=(
-            shapelets_selection(train_index, test_index, label,repo_list))
+            shapelets_selection(train_index, test_index, label,repo_list,i))
         pre1.extend(predictions1)
         pre2.extend(predictions2)
         pre3.extend(predictions3)
@@ -217,3 +218,4 @@ if __name__ == "__main__":
         draw_confusion_matrix(predictions2,y_t2,"./confusion_matrix/community_support_score.png")
         draw_confusion_matrix(predictions3,y_t3,"./confusion_matrix/code_quality_guarantee.png")
         draw_confusion_matrix(predictions4,y_t4,"./confusion_matrix/organizations_activity.png")
+        i=i+1
