@@ -47,6 +47,7 @@ def check_accuracy(loader, model, device="cuda"):
             preds = model(x)
             # 计算每行的最大值
             max_values = torch.max(preds, dim=1)[0]
+            # max_values = preds
             # 创建一个形状与原始张量相同的全零张量
             result_tensor = torch.zeros_like(preds)
             # 使用 torch.where 将每行的最大值设置为1，其他值设置为0

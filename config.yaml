@@ -1,8 +1,9 @@
 model: 
-  isMix: False
+  isMix: True
   split_count: 10
   # isMix为False时生效
   name: Feature-XGBoost
+  # name: Feature-RandomForest
   # isMix为True时生效
   model_list:
     - Feature-XGBoost

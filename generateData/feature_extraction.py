@@ -131,7 +131,7 @@ def get_data_feature(Label_path, filePaths):
                 X = X.iloc[:, 1:]
                 X['label'] = LabelDict[filename]
                 df_new = pd.concat([df_new, X])
-    df_new.to_csv(featurePaths + "features.csv")
+    df_new.to_csv(featurePaths + "features2.csv")
 
 
 if __name__ == '__main__':

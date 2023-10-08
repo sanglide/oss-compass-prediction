@@ -4,15 +4,17 @@ import torch.nn as nn
 class CNN(nn.Module):
     def __init__(self, in_channels, n_class):
         super(CNN, self).__init__()
-        self.conv1 = nn.Conv1d(in_channels=in_channels, out_channels=6, kernel_size=7, padding=1)
-        self.sigmoid1 = nn.Sigmoid()
-        self.pool1 = nn.AvgPool1d(kernel_size=3)
-        self.conv2 = nn.Conv1d(in_channels=6, out_channels=12, kernel_size=7, padding=1)
-        self.sigmoid2 = nn.Sigmoid()
-        self.pool2 = nn.AvgPool1d(kernel_size=3)
+        self.conv1 = nn.Conv1d(in_channels=in_channels, out_channels=128, kernel_size=7, padding=1)
+        self.sigmoid1 = nn.ReLU()
+        self.pool1 = nn.AvgPool1d(kernel_size=2)
+        self.conv2 = nn.Conv1d(in_channels=128, out_channels=256, kernel_size=7, padding=1)
+        self.sigmoid2 = nn.ReLU()
+        self.pool2 = nn.AvgPool1d(kernel_size=2)
         self.flatten = nn.Flatten()
-        self.liner = nn.Linear(108, n_class)
-        self.softmax = nn.Softmax()
+        self.liner = nn.Linear(5888, 1024)
+        self.relu = nn.ReLU()
+        self.liner2 = nn.Linear(1024, n_class)
+        self.softmax = nn.Softmax(dim=1)
         
 
     def forward(self, x):
@@ -24,6 +26,8 @@ class CNN(nn.Module):
         x = self.pool2(x)
         x = self.flatten(x)
         x = self.liner(x)
+        x = self.relu(x)
+        x = self.liner2(x)
         x = self.softmax(x)
         return x
 

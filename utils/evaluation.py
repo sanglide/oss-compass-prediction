@@ -122,3 +122,35 @@ def mix_test(model_list, x_data, y_data, kf):
         Y_preds.extend(y_pred)
         Y_test.extend(y_test)
     evaluate(np.array(Y_test), np.array(Y_preds), name, draw=True)
+
+
+def mix_test_lab(model_list, x_data, y_data, kf):
+    model_type = MLmodel_dict.get(model_list[0]).get_base_model()
+    for name in model_list:
+        m = MLmodel_dict.get(name)
+        if model_type != m.get_base_model():
+            print("the models inherit from different parent classes")
+            assert 0
+    Y_preds, Y_test = [], []
+    for train_index, test_index in kf.split(x_data, y_data):
+        X_train, X_test = x_data[train_index], x_data[test_index]
+        y_train, y_test = y_data[train_index], y_data[test_index]
+        y_cnt = np.zeros(len(y_test), dtype=int)
+        for mixed_model in model_list:
+            m = MLmodel_dict.get(mixed_model)
+            if m is not None:
+                m.fit(X_train, y_train)
+                y_hat = m.predict(X_test)
+                y_cnt += (y_hat == 1).astype(int) - (y_hat == 0).astype(int)
+        y_pred = (y_cnt >= 0).astype(int)
+        Y_preds.extend(y_pred)
+        Y_test.extend(y_test)
+    preds, y_true = np.array(Y_preds), np.array(Y_test)
+    conf_matrix = confusion_matrix(y_true, preds)
+    accuracy = accuracy_score(y_true, preds)
+    precision = precision_score(y_true, preds)
+    recall = recall_score(y_true, preds)
+    f1 = f1_score(y_true, preds)
+    auc = roc_auc_score(y_true, preds)
+    return preds, conf_matrix, accuracy, precision, recall, f1, auc
+    

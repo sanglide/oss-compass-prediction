@@ -1,0 +1,17 @@
+model: tsai-TransformerLSTMPlus
+mode: train
+pin_memory: true
+
+data:
+  train_data: data/train.csv
+  valid_data: data/valid.csv
+
+train:
+  learning_rate: 1e-3
+  batch_size: 32
+  num_epochs: 100
+  num_workers: 2
+
+test:
+  ckpt_path: False
+  

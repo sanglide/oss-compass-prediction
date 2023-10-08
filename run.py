@@ -31,6 +31,7 @@ def main():
             shutil.rmtree('generate_html/outputs')
     if is_mix:
         x_data, y_data = read_dict[MLmodel_dict[model_list[0]].get_read_func()]()
+        print(model_list)
         mix_test(model_list, x_data, y_data, kf)
     elif model_name == "all":
         for name, model in MLmodel_dict.items():
@@ -46,9 +47,10 @@ def main():
         print("you need provide a right model name")
     else:
         x_data, y_data = read_dict[MLmodel_dict[model_name].get_read_func()]()
-        test(model_name, x_data, y_data, kf)     
+        test(model_name, x_data, y_data, kf)
     if is_html:
         generate_html()
+
 
 if __name__ == '__main__':
     main()
